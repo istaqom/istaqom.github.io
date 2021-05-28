@@ -19,7 +19,7 @@
 }
 
 .gradient{
-    background: linear-gradient(to bottom, var(--light-orange) 120px, #fff 1px);
+    background: linear-gradient(to bottom, var(--light-orange) 5%, #fff 1px);
 }
 
 .border-orange{
