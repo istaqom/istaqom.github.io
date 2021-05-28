@@ -1,0 +1,37 @@
+:root{
+    --orange:#fd904d;
+    --light-orange:#fccf50;
+}
+
+.roboto-500{
+    font-family: 'Roboto'; 
+    font-weight: 500;
+}
+
+.roboto-400{
+    font-family: 'Roboto'; 
+    font-weight: 400;
+}
+
+.roboto-300{
+    font-family: 'Roboto'; 
+    font-weight: 300;
+}
+
+.gradient{
+    background: linear-gradient(to bottom, var(--light-orange) 120px, #fff 1px);
+}
+
+.border-orange{
+    border-color: var(--orange);
+}
+
+body{
+    background-color: var(--orange);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar{
+    display: none;
+}
