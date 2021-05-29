@@ -30,10 +30,10 @@ function getAge($then)
     <title>Istaqom Wirawan Adi Pratama</title>
 </head>
 <body class="pb-10 pt-10">
-  <div class="gradient bg-white rounded-lg container mx-auto w-4/5">
+  <div class="gradient bg-white rounded-lg container mx-auto w-4/5 xl:w-2/5">
     <div class="flex justify-center pt-4">
       <a href="index.php" class="">
-        <img src="./img/logo-tp.png" class="object-center w-40 sm:w-40 md:w-44 lg:w-48 xl:w-52 2xl:w-56">
+        <img src="./img/logo-tp.png" class="object-center w-32 sm:w-40 md:w-44 lg:w-48 xl:w-52 2xl:w-56">
       </a>
     </div>
       <p class="roboto-500 text-sm sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-center pl-2 pr-2 pb-2">
@@ -59,31 +59,31 @@ function getAge($then)
         that I'm quite good at
       </p>
 
-      <div class="grid justify-center grid-flow-col justify-item-center gap-8 pb-20 pl-2 pr-2">
+      <div class="grid justify-center grid-flow-col justify-item-stretch justify-around gap-8 pb-20 pl-2 pr-2">
         <div>
-          <img src="img/php.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/php.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             PHP
           </p>
         </div>
 
         <div>
-          <img src="img/html-5.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/html-5.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             HTML
           </p>
         </div>
 
         <div>
-          <img src="img/css-3.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/css-3.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             CSS
           </p>
         </div>
 
         <div>
-          <img src="img/python.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/python.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             Python
           </p>
         </div>
@@ -99,25 +99,25 @@ function getAge($then)
         that I usually use
       </p>
 
-      <div class="grid justify-center grid-flow-col justify-item-center gap-8 pb-20 pl-2 pr-2">
+      <div class="grid justify-center grid-flow-col justify-item-stretch justify-around gap-8 pb-20 pl-2 pr-2">
         <div>
-          <img src="img/laravel.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/laravel.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             Laravel
           </p>
         </div>
 
         <div>
-          <img src="img/jquery.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/jquery.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             jQuery
           </p>
         </div>
 
         <div>
-          <img src="img/tailwind-css.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
-            Tailwind CSS
+          <img src="img/tailwind-css.svg" class="object-center h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+            Tailwind
           </p>
         </div>
 
@@ -132,24 +132,24 @@ function getAge($then)
         that I love to use
       </p>
 
-      <div class="grid justify-center grid-flow-col justify-item-center gap-8 pb-20 pl-2 pr-2">
+      <div class="grid justify-center grid-flow-col justify-item-stretch justify-around gap-8 pb-20 pl-2 pr-2">
         <div>
-          <img src="img/vscode.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/vscode.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             VSCode
           </p>
         </div>
 
         <div>
-          <img src="img/git.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/git.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             Git
           </p>
         </div>
 
         <div>
-          <img src="img/npm.svg" class="h-14 w-14 xl:h-32 xl:w-32 pb-2">
-          <p class="roboto-400 sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
+          <img src="img/npm.svg" class="h-12 w-12 xl:h-24 xl:w-24 pb-2">
+          <p class="roboto-400 text-sm sm:text-lg md:text-lg lg:text-xl xl:text-1xl text-center pb-10">
             npm
           </p>
         </div>
