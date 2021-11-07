@@ -149,6 +149,11 @@ body::-webkit-scrollbar{
 }
 
 @media only screen and (max-device-width: 480px) { 
+
+    .gradient{
+        background: linear-gradient(to bottom, var(--light-orange) 0, var(--light-orange) 5%, #fff 5%, #fff 94%, var(--light-orange) 94%, var(--light-orange) 100%);
+    }
+
     .framework {
         border-radius: 25px;
     }
@@ -161,29 +166,25 @@ body::-webkit-scrollbar{
         width: 19em;
     }
 
-    .container-language {
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-    }
-
-    .container-framework {
-        display: grid;
-        grid-template-columns: auto auto auto;
-    }
-
-    .container-tool {
-        display: grid;
-        grid-template-columns: auto auto auto;
-    }
-
-    .container-socmed {
-        display: grid;
-        grid-template-columns: auto auto auto auto;
-    }
-    
     .container-socmed-item img {
         width: 1.5em;
         height: 1.5em;
+    }
+
+    .desc-title {
+        font-size: 1.5em;
+    }
+
+    .desc-content {
+        font-size: 1.25em;
+    }
+
+    .content-title {
+        font-size: 1.5em;
+    }
+
+    .content-content {
+        font-size: 1.25em;
     }
 
     .footer-content {
