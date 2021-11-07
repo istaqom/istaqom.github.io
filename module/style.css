@@ -18,14 +18,6 @@
     font-weight: 300;
 }
 
-.gradient{
-    background: linear-gradient(to bottom, var(--light-orange) 5%, #fff 1px);
-}
-
-.border-orange{
-    border-color: var(--orange);
-}
-
 body{
     background-color: var(--orange);
     -ms-overflow-style: none;
@@ -34,4 +26,181 @@ body{
 
 body::-webkit-scrollbar{
     display: none;
+}
+
+.gradient{
+    background: linear-gradient(to bottom, var(--light-orange) 0, var(--light-orange) 5%, #fff 5%, #fff 95%, var(--light-orange) 95%, var(--light-orange) 100%);
+}
+
+.grid {
+    display: grid;
+    place-items: center;
+}
+
+.container-language {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    margin-bottom: 25px;
+}
+
+.container-framework {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-bottom: 25px;
+}
+
+.container-tool {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-bottom: 25px;
+}
+
+.container-socmed {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.container-socmed-item {
+    padding: 10px;
+    text-align: center;
+}
+
+.container-socmed-item img {
+    width: 2em;
+    height: 2em;
+}
+
+.container-item {
+    padding: 35px;
+    text-align: center;
+}
+
+.container-item img {
+    width: 7.5em;
+    height: 7.5em;
+}
+
+.no-margin {
+    margin: auto 0 0 0;
+}
+
+@media screen {
+    .framework {
+        border-radius: 25px;
+        overflow: visible;
+    }
+
+    .istalogo {
+        width: 12.5em;
+        margin: auto;
+    }
+
+    .desc-title {
+        font-size: 2.5em;
+        padding: 0 10px 10px 10px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .desc-content {
+        font-size: 1.5em;
+        padding: 0 10px 30px 10px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .content-title {
+        font-size: 2.5em;
+        padding: 0 10px 0 10px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .content-content {
+        font-size: 1.5em;
+        padding: 0 10px 0 10px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .item-font {
+        font-size: 1.5em;
+    }
+
+    .footer-content {
+        font-size: 1.25em;
+        padding: 0 10px 0 10px;
+        margin: 0;
+        text-align: center;
+    }
+
+    .me {
+        width: 30em;
+        border: solid var(--orange) 10px;
+        border-radius: 50%;
+        margin-bottom: 2.5em;
+    }
+
+    hr {
+        border-top: 0.1px solid rgb(200, 200, 200);
+        width: 90%;
+        margin-bottom: 35px;
+    }
+}
+
+@media only screen and (max-device-width: 480px) { 
+    .framework {
+        border-radius: 25px;
+    }
+
+    .istalogo {
+        width: 9em;
+    }
+
+    .me {
+        width: 19em;
+    }
+
+    .container-language {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+    }
+
+    .container-framework {
+        display: grid;
+        grid-template-columns: auto auto auto;
+    }
+
+    .container-tool {
+        display: grid;
+        grid-template-columns: auto auto auto;
+    }
+
+    .container-socmed {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+    }
+    
+    .container-socmed-item img {
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+    .footer-content {
+        font-size: 1em;
+    }
+
+    .item-font {
+        font-size: 1em;
+    }
+
+    .container-item {
+        padding: 15px;
+        text-align: center;
+    }
+    
+    .container-item img {
+        height: 4em;
+        width: 4em;
+    }
 }
