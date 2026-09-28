@@ -252,7 +252,7 @@
     });
 
     document.addEventListener('mouseover', function (e) {
-        var card = e.target.closest('.skill-item, .term-link');
+        var card = e.target.closest('.skill-item, .term-link, .git-fact');
         if (!card || card.contains(e.relatedTarget)) return;
         var deg = (2 + Math.random() * 4) * (Math.random() < 0.5 ? -1 : 1);
         card.style.setProperty('--tilt', deg.toFixed(1) + 'deg');
@@ -287,7 +287,7 @@
     });
 
     function replayTerminal(win) {
-        var term = win.querySelector('.terminal.is-running');
+        var term = win.querySelector('.is-running');
         if (!term) return;
         term.classList.remove('is-running');
         void term.offsetWidth;
@@ -303,7 +303,7 @@
                 termObserver.unobserve(entry.target);
             });
         }, { threshold: 0.3 });
-        Array.prototype.forEach.call(document.querySelectorAll('.terminal'), function (term) {
+        Array.prototype.forEach.call(document.querySelectorAll('.terminal, .git-board'), function (term) {
             term.classList.add('will-run');
             termObserver.observe(term);
         });

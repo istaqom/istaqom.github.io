@@ -1,13 +1,12 @@
 (function () {
     var GITHUB_USER = 'istaqom';
     var GITLAB_USER_ID = 5169617;
-    var GITLAB_LANG_LOOKUPS = 10;
-    var STATS_CACHE_KEY = 'git-stats-v2';
-    var CONTRIB_CACHE_KEY = 'git-contributions-v1';
+    var DATA_URL = 'data/contributions.json';
+    var DATA_CACHE_KEY = 'git-data-v1';
+    var LIVE_CACHE_KEY = 'git-live-v1';
     var CACHE_TTL = 24 * 60 * 60 * 1000;
 
-    var fields = document.querySelectorAll('[data-stat]');
-    if (!fields.length) return;
+    if (!document.querySelector('[data-stat]')) return;
 
     function getJSON(url) {
         return fetch(url).then(function (res) {
@@ -30,117 +29,73 @@
         } catch (e) {}
     }
 
-    function cachedJSON(key, url) {
-        var cached = readCache(key);
+    function setStat(key, value, className) {
+        Array.prototype.forEach.call(document.querySelectorAll('[data-stat="' + key + '"]'), function (field) {
+            field.textContent = value;
+            if (className) field.classList.add(className);
+        });
+    }
+
+    function loadData() {
+        var cached = readCache(DATA_CACHE_KEY);
         if (cached) return Promise.resolve(cached);
-        return getJSON(url).then(function (data) {
-            writeCache(key, data);
+        return getJSON(DATA_URL).then(function (data) {
+            if (data.github && data.gitlab) writeCache(DATA_CACHE_KEY, data);
             return data;
         });
     }
 
-    function topLangs(counts, n) {
-        return Object.keys(counts)
-            .sort(function (a, b) { return counts[b] - counts[a]; })
-            .slice(0, n);
-    }
-
-    function fetchGitHub() {
+    // Only used until the daily Action has written the profile stats into DATA_URL.
+    function loadLive() {
+        var cached = readCache(LIVE_CACHE_KEY);
+        if (cached) return Promise.resolve(cached);
         return Promise.all([
             getJSON('https://api.github.com/users/' + GITHUB_USER),
-            getJSON('https://api.github.com/users/' + GITHUB_USER + '/repos?per_page=100')
+            getJSON('https://api.github.com/users/' + GITHUB_USER + '/repos?per_page=100'),
+            fetch('https://gitlab.com/api/v4/users/' + GITLAB_USER_ID + '/projects?per_page=1&simple=true')
         ]).then(function (res) {
-            var user = res[0];
-            var langs = {};
+            var langCounts = {};
             var stars = 0;
             res[1].forEach(function (repo) {
                 stars += repo.stargazers_count;
-                if (repo.language && !repo.fork) langs[repo.language] = (langs[repo.language] || 0) + 1;
+                if (repo.language && !repo.fork) langCounts[repo.language] = (langCounts[repo.language] || 0) + 1;
             });
-            return {
-                repos: user.public_repos,
-                stars: stars,
-                followers: user.followers,
-                since: new Date(user.created_at).getFullYear(),
-                langs: langs
+            var live = {
+                github: {
+                    repos: res[0].public_repos,
+                    stars: stars,
+                    followers: res[0].followers,
+                    langs: Object.keys(langCounts)
+                        .sort(function (a, b) { return langCounts[b] - langCounts[a]; })
+                        .slice(0, 3),
+                    since: new Date(res[0].created_at).getFullYear()
+                },
+                gitlab: { repos: Number(res[2].headers.get('X-Total')) || '?' }
             };
+            writeCache(LIVE_CACHE_KEY, live);
+            return live;
         });
     }
 
-    function fetchGitLab() {
-        return getJSON('https://gitlab.com/api/v4/users/' + GITLAB_USER_ID + '/projects?per_page=100&simple=true')
-            .then(function (projects) {
-                var stars = projects.reduce(function (sum, p) { return sum + (p.star_count || 0); }, 0);
-                var lookups = projects.slice(0, GITLAB_LANG_LOOKUPS).map(function (p) {
-                    return getJSON('https://gitlab.com/api/v4/projects/' + p.id + '/languages')
-                        .then(function (langs) { return topLangs(langs, 1)[0]; }, function () { return null; });
-                });
-                return Promise.all(lookups).then(function (mains) {
-                    var langs = {};
-                    mains.forEach(function (lang) {
-                        if (lang) langs[lang] = (langs[lang] || 0) + 1;
-                    });
-                    return { repos: projects.length, stars: stars, langs: langs };
-                });
-            });
+    function renderStats(stats) {
+        setStat('repos', stats.github.repos);
+        setStat('stars', stats.github.stars);
+        setStat('followers', stats.github.followers);
+        setStat('langs', stats.github.langs.join(', ') || '-');
+        setStat('since', stats.github.since);
+        setStat('gl-repos', stats.gitlab.repos);
     }
 
-    function buildView(gh, gl) {
-        var ghOk = !!gh;
-        var glOk = !!gl;
-        var ghLabel = function (v) { return 'GitHub: ' + (ghOk ? v : 'unavailable'); };
-        var glLabel = function (v) { return 'GitLab: ' + (glOk ? v : 'unavailable'); };
-        var sum = function (key) { return ghOk ? gh[key] + (glOk ? gl[key] : 0) : '?'; };
-
-        var merged = {};
-        [ghOk && gh.langs, glOk && gl.langs].forEach(function (langs) {
-            if (!langs) return;
-            Object.keys(langs).forEach(function (k) { merged[k] = (merged[k] || 0) + langs[k]; });
+    function renderStatsError() {
+        ['repos', 'stars', 'followers', 'since'].forEach(function (key) {
+            setStat(key, '?', 'is-error');
         });
-
-        return {
-            repos: {
-                value: sum('repos'),
-                tip: ghLabel(ghOk && gh.repos) + ' · ' + glLabel(glOk && gl.repos + ' public')
-            },
-            stars: {
-                value: sum('stars'),
-                tip: ghLabel(ghOk && gh.stars) + ' · ' + glLabel(glOk && gl.stars)
-            },
-            followers: {
-                value: ghOk ? gh.followers : '?',
-                tip: ghLabel(ghOk && gh.followers) + ' · GitLab: hidden'
-            },
-            langs: {
-                value: topLangs(merged, 3).join(', ') || '-',
-                tip: ghLabel(ghOk && (topLangs(gh.langs, 3).join(', ') || '-')) + ' · ' +
-                     glLabel(glOk && (topLangs(gl.langs, 3).join(', ') || '-'))
-            },
-            since: {
-                value: ghOk ? gh.since : '?',
-                tip: ghLabel(ghOk && gh.since) + ' · GitLab: hidden'
-            }
-        };
-    }
-
-    function render(view) {
-        Object.keys(view).forEach(function (key) {
-            var field = document.querySelector('[data-stat="' + key + '"]');
-            var row = document.querySelector('[data-stat-row="' + key + '"]');
-            if (field) field.textContent = view[key].value;
-            if (row) row.setAttribute('data-tip', view[key].tip);
-        });
-    }
-
-    function renderError() {
-        Array.prototype.forEach.call(fields, function (el) {
-            if (el.getAttribute('data-stat') === 'contributions') return;
-            el.textContent = 'rate limited, try later';
-            el.classList.add('is-error');
-        });
+        setStat('langs', 'rate limited, try later', 'is-error');
+        setStat('gl-repos', '?');
     }
 
     var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     var WEEK_PX = 14;
     var EDGE_WEEKS = 8;
 
@@ -230,51 +185,72 @@
         chart.replaceChildren(heatmap, legend);
     }
 
-    function loadContributions() {
-        var chart = document.querySelector('.git-chart');
-        var row = document.querySelector('[data-stat-row="contributions"]');
-        cachedJSON(CONTRIB_CACHE_KEY, 'data/contributions.json').then(function (data) {
-            if (!data.days || !data.days.length) return;
-            var gh = data.days.reduce(function (s, d) { return s + d[1]; }, 0);
-            var gl = data.days.reduce(function (s, d) { return s + d[2]; }, 0);
-            render({ contributions: { value: gh + gl, tip: 'last year · GitHub: ' + gh + ' · GitLab: ' + gl } });
-            if (row) row.hidden = false;
-            if (!chart) return;
-
-            var lastWidth = -1;
-            var timer;
-            function redraw() {
-                var width = chart.clientWidth;
-                if (!width || Math.abs(width - lastWidth) < WEEK_PX) return;
-                lastWidth = width;
-                renderHeatmap(chart, data.days, data.updated);
-            }
-            function scheduleRedraw() {
-                clearTimeout(timer);
-                timer = setTimeout(redraw, 150);
-            }
-            redraw();
-            if ('ResizeObserver' in window) new ResizeObserver(scheduleRedraw).observe(chart);
-            else window.addEventListener('resize', scheduleRedraw);
-        }).catch(function () {});
+    function plural(n, word) {
+        return n + ' ' + word + (n === 1 ? '' : 's');
     }
 
-    loadContributions();
+    function renderFacts(days) {
+        var longest = 0;
+        var run = 0;
+        var best = days[0];
+        var byWeekday = [0, 0, 0, 0, 0, 0, 0];
+        days.forEach(function (day) {
+            var total = day[1] + day[2];
+            run = total ? run + 1 : 0;
+            longest = Math.max(longest, run);
+            if (total > best[1] + best[2]) best = day;
+            byWeekday[parseDate(day[0]).getUTCDay()] += total;
+        });
 
-    var cached = readCache(STATS_CACHE_KEY);
-    if (cached) {
-        render(cached);
-        return;
-    }
-
-    var orNull = function () { return null; };
-    Promise.all([fetchGitHub().catch(orNull), fetchGitLab().catch(orNull)]).then(function (res) {
-        if (!res[0] && !res[1]) {
-            renderError();
-            return;
+        // today still counts as "ongoing" even if nothing has been pushed yet
+        var current = 0;
+        for (var i = days.length - 1; i >= 0; i--) {
+            if (days[i][1] + days[i][2]) current++;
+            else if (i !== days.length - 1) break;
         }
-        var view = buildView(res[0], res[1]);
-        render(view);
-        if (res[0] && res[1]) writeCache(STATS_CACHE_KEY, view);
+
+        var busiest = byWeekday.indexOf(Math.max.apply(null, byWeekday));
+        var bestDate = parseDate(best[0]);
+        setStat('streak', plural(longest, 'day'));
+        setStat('current', plural(current, 'day'));
+        setStat('best-day', (best[1] + best[2]) + ' on ' + MONTHS[bestDate.getUTCMonth()] + ' ' + bestDate.getUTCDate());
+        setStat('weekday', WEEKDAYS[busiest] + 's');
+    }
+
+    function renderContributions(data) {
+        var gh = data.days.reduce(function (s, d) { return s + d[1]; }, 0);
+        var gl = data.days.reduce(function (s, d) { return s + d[2]; }, 0);
+        setStat('contributions', gh + gl);
+        setStat('contrib-gh', gh);
+        setStat('contrib-gl', gl);
+        setStat('printed', formatDate(data.updated.slice(0, 10)));
+        renderFacts(data.days);
+
+        var chart = document.querySelector('.git-chart');
+        if (!chart) return;
+        var lastWidth = -1;
+        var timer;
+        function redraw() {
+            var width = chart.clientWidth;
+            if (!width || Math.abs(width - lastWidth) < WEEK_PX) return;
+            lastWidth = width;
+            renderHeatmap(chart, data.days, data.updated);
+        }
+        function scheduleRedraw() {
+            clearTimeout(timer);
+            timer = setTimeout(redraw, 150);
+        }
+        redraw();
+        if ('ResizeObserver' in window) new ResizeObserver(scheduleRedraw).observe(chart);
+        else window.addEventListener('resize', scheduleRedraw);
+    }
+
+    loadData().catch(function () { return null; }).then(function (data) {
+        if (data && data.days && data.days.length) renderContributions(data);
+        else ['contributions', 'contrib-gh', 'contrib-gl', 'printed', 'streak', 'current', 'best-day', 'weekday']
+            .forEach(function (key) { setStat(key, '?'); });
+
+        var stats = data && data.github && data.gitlab ? Promise.resolve(data) : loadLive();
+        stats.then(renderStats, renderStatsError);
     });
 })();

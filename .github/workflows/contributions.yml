@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 20
 
-      - name: Collect GitHub and GitLab contributions
+      - name: Collect GitHub and GitLab stats and contributions
         run: node scripts/contributions.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

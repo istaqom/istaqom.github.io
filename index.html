@@ -24,6 +24,7 @@
     <script src="module/marquee.js" defer></script>
     <script src="module/profile.js" defer></script>
     <script src="module/gitstats.js" defer></script>
+    <script src="module/shell.js" defer></script>
 
     <title>About Me | Istaqom Wirawan Adi Pratama</title>
 </head>
@@ -235,53 +236,75 @@
                         <p class="term-comment term-reveal" style="--i: 3"># 7 active, 0 failed (for now)</p>
                     </div>
                 </div>
-                <p class="term-line term-reveal" style="--i: 4">
-                    <span class="term-prompt">istaqom@magi:~$</span> <span class="term-cursor"></span>
-                </p>
+                <div class="term-history" aria-live="polite"></div>
+                <form class="term-line term-shell term-reveal" style="--i: 4" data-shell>
+                    <label class="term-prompt" for="homelab-shell">istaqom@magi:~$</label>
+                    <span class="term-input-wrap">
+                        <input id="homelab-shell" class="term-input" type="text" placeholder=" " autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="send">
+                        <span class="term-cursor" aria-hidden="true"></span>
+                    </span>
+                </form>
             </div>
         </section>
 
         <section class="window window-full" id="win-git" data-title="~/git-stats" data-icon="img/icon-git.svg">
-            <div class="window-body terminal">
-                <div class="homelab-grid">
-                    <div>
-                        <p class="term-line">
-                            <span class="term-prompt">istaqom@magi:~$</span>
-                            <span class="term-typed" style="--chars: 26">gitstats --github --gitlab</span>
-                        </p>
-                        <dl class="git-stats term-reveal" style="--i: 0">
-                            <div class="fetch-row stat-row" data-stat-row="repos"><dt>repos</dt><dd data-stat="repos">...</dd></div>
-                            <div class="fetch-row stat-row" data-stat-row="stars"><dt>stars</dt><dd data-stat="stars">...</dd></div>
-                            <div class="fetch-row stat-row" data-stat-row="contributions" hidden><dt>contributions</dt><dd data-stat="contributions">...</dd></div>
-                            <div class="fetch-row stat-row" data-stat-row="followers"><dt>followers</dt><dd data-stat="followers">...</dd></div>
-                            <div class="fetch-row stat-row" data-stat-row="langs"><dt>top langs</dt><dd data-stat="langs">...</dd></div>
-                            <div class="fetch-row stat-row" data-stat-row="since"><dt>since</dt><dd data-stat="since">...</dd></div>
+            <div class="window-body git-board">
+                <div class="receipt-wrap">
+                    <div class="receipt">
+                        <p class="receipt-brand">GIT MART</p>
+                        <p class="receipt-center">open source, open late</p>
+                        <p class="receipt-center">printed <span data-stat="printed">...</span></p>
+                        <dl class="receipt-rows">
+                            <div><dt>cashier</dt><dd>istaqom</dd></div>
+                            <div><dt>member since</dt><dd data-stat="since">...</dd></div>
                         </dl>
-                        <p class="term-comment term-reveal" style="--i: 1"># hover (or tap) a stat for the breakdown</p>
+                        <dl class="receipt-rows">
+                            <div><dt>github repos</dt><dd data-stat="repos">...</dd></div>
+                            <div><dt>gitlab repos*</dt><dd data-stat="gl-repos">...</dd></div>
+                            <div><dt>stars</dt><dd data-stat="stars">...</dd></div>
+                            <div><dt>followers</dt><dd data-stat="followers">...</dd></div>
+                        </dl>
+                        <dl class="receipt-rows">
+                            <div><dt>github contribs</dt><dd data-stat="contrib-gh">...</dd></div>
+                            <div><dt>gitlab contribs</dt><dd data-stat="contrib-gl">...</dd></div>
+                            <div class="receipt-total"><dt>TOTAL</dt><dd data-stat="contributions">...</dd></div>
+                        </dl>
+                        <p class="receipt-paid">paid with: <span data-stat="langs">...</span></p>
+                        <p class="receipt-note">* the rest is private, trust me</p>
+                        <div class="receipt-barcode" aria-hidden="true"></div>
+                        <p class="receipt-center">no refunds on merge conflicts<br>thank you, come again</p>
                     </div>
-                    <div>
-                        <p class="term-line term-reveal" style="--i: 2">
-                            <span class="term-prompt">istaqom@magi:~$</span> ls ~/profiles
-                        </p>
-                        <div class="term-links term-reveal" style="--i: 3">
-                            <a href="https://github.com/istaqom" class="term-link">
-                                <img src="img/github.svg" alt="">
-                                <span>github</span>
-                            </a>
-                            <a href="https://gitlab.com/istaqom" class="term-link">
-                                <img src="img/gitlab.svg" alt="">
-                                <span>gitlab</span>
-                            </a>
+                </div>
+
+                <div class="git-panel">
+                    <div class="git-panel-head">
+                        <div>
+                            <h2 class="section-title">// Contributions</h2>
+                            <p class="skill-subtitle">GitHub + GitLab, last 12 months</p>
                         </div>
-                        <p class="term-comment term-reveal" style="--i: 4"># gitlab is mostly private repos, trust me</p>
+                        <p class="git-big"><span data-stat="contributions">...</span><small>contributions</small></p>
+                    </div>
+                    <div class="git-chart">
+                        <img src="https://ghchart.rshah.org/e67e22/istaqom" alt="GitHub contribution graph for istaqom" loading="lazy">
+                    </div>
+                    <div class="git-facts">
+                        <div class="git-fact"><span class="git-fact-value" data-stat="streak">...</span><span class="git-fact-label">longest streak</span></div>
+                        <div class="git-fact"><span class="git-fact-value" data-stat="current">...</span><span class="git-fact-label">current streak</span></div>
+                        <div class="git-fact"><span class="git-fact-value" data-stat="best-day">...</span><span class="git-fact-label">best day</span></div>
+                        <div class="git-fact"><span class="git-fact-value" data-stat="weekday">...</span><span class="git-fact-label">busiest weekday</span></div>
+                    </div>
+                    <div class="git-find">
+                        <span class="git-find-label">find me on</span>
+                        <a href="https://github.com/istaqom" class="term-link">
+                            <img src="img/github.svg" alt="">
+                            <span>github</span>
+                        </a>
+                        <a href="https://gitlab.com/istaqom" class="term-link">
+                            <img src="img/gitlab.svg" alt="">
+                            <span>gitlab</span>
+                        </a>
                     </div>
                 </div>
-                <div class="git-chart term-reveal" style="--i: 5">
-                    <img src="https://ghchart.rshah.org/e67e22/istaqom" alt="GitHub contribution graph for istaqom" loading="lazy">
-                </div>
-                <p class="term-line term-reveal" style="--i: 6">
-                    <span class="term-prompt">istaqom@magi:~$</span> <span class="term-cursor"></span>
-                </p>
             </div>
         </section>
 
