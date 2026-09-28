@@ -20,6 +20,7 @@
     var clockDate = document.querySelector('.clock-date');
 
     var windows = Array.prototype.slice.call(document.querySelectorAll('.window'));
+    var BASE_TITLE = document.title;
 
     function iconImg(src) {
         var img = document.createElement('img');
@@ -120,12 +121,16 @@
         return !win.classList.contains('is-minimized') && !win.classList.contains('is-closed');
     }
 
-    function focus(win) {
+    function focus(win, keepTitle) {
         windows.forEach(function (w) {
             var active = w === win;
             w.classList.toggle('is-active', active);
             w._task.classList.toggle('is-active', active);
         });
+        if (keepTitle) return;
+        document.title = win
+            ? BASE_TITLE.replace('~', function () { return win.dataset.title; })
+            : BASE_TITLE;
     }
 
     function blurIfActive(win) {
@@ -334,6 +339,6 @@
     tick();
     setInterval(tick, 15000);
 
-    focus(windows[0]);
+    focus(windows[0], true);
     refresh();
 })();

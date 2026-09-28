@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | istaqom@magi</title>
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#2c3e50">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <link href="/module/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        body { padding-bottom: 0; }
+        .desktop { align-items: center; justify-content: center; }
+        .window { flex: 0 1 640px; }
+        .missing-path { word-break: break-all; }
+    </style>
+</head>
+<body>
+    <div class="marquee-container">
+        <div class="marquee-track">
+            <span class="marquee-content">
+                404 *** WINDOW NOT FOUND *** IT'S PROBABLY DNS *** 404 *** WINDOW NOT FOUND *** IT'S PROBABLY DNS ***
+            </span>
+            <span class="marquee-content" aria-hidden="true">
+                404 *** WINDOW NOT FOUND *** IT'S PROBABLY DNS *** 404 *** WINDOW NOT FOUND *** IT'S PROBABLY DNS ***
+            </span>
+        </div>
+    </div>
+
+    <main class="desktop">
+        <section class="window is-active">
+            <header class="titlebar">
+                <img class="titlebar-icon" src="/img/icon-terminal.svg" alt="">
+                <span class="titlebar-title">~/404</span>
+            </header>
+            <div class="window-body terminal">
+                <p class="term-line">
+                    <span class="term-prompt">istaqom@magi:~$</span> cd <span class="missing-path">/somewhere</span>
+                </p>
+                <p class="term-out">bash: cd: <span class="missing-path">/somewhere</span>: No such file or directory</p>
+                <p class="term-comment"># this window doesn't exist. maybe it got closed?</p>
+                <div class="term-links">
+                    <a href="/" class="term-link">
+                        <img src="/img/favicon-32.png" alt="">
+                        <span>home</span>
+                    </a>
+                </div>
+                <p class="term-line">
+                    <span class="term-prompt">istaqom@magi:~$</span> <span class="term-cursor"></span>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        var path = location.pathname;
+        try { path = decodeURIComponent(path); } catch (e) {}
+        document.querySelectorAll('.missing-path').forEach(function (el) {
+            el.textContent = path;
+        });
+    </script>
+</body>
+</html>
