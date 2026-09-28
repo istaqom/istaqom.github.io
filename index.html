@@ -20,6 +20,10 @@
             return Math.abs(age_dt.getUTCFullYear() - 1970);
         }
     </script>
+    <script src="module/wm.js" defer></script>
+    <script src="module/marquee.js" defer></script>
+    <script src="module/profile.js" defer></script>
+    <script src="module/gitstats.js" defer></script>
 
     <title>About Me | Istaqom Wirawan Adi Pratama</title>
 </head>
@@ -27,172 +31,334 @@
     <div class="marquee-container">
         <div class="marquee-track">
             <span class="marquee-content">
-                WELCOME TO MY CORNER OF THE INTERNET *** CLOUD ENGINEER ON GOOGLE CLOUD PLATFORM ***
-                AUTO-SCALING &amp; LOAD BALANCING ENTHUSIAST *** RIGHT-SIZED VMS = RELIABILITY + LOWER BILLS ***
-                BEST VIEWED WITH ANY MODERN BROWSER *** MADE WITH &#10084; IN SAMARINDA ***
+                IT'S ALWAYS DNS *** THERE IS NO CLOUD, IT'S JUST SOMEONE ELSE'S COMPUTER ***
+                IT WORKS ON MY MACHINE *** BEST VIEWED WITH ANY MODERN BROWSER ***
             </span>
-            <span class="marquee-content">
-                WELCOME TO MY CORNER OF THE INTERNET *** CLOUD ENGINEER ON GOOGLE CLOUD PLATFORM ***
-                AUTO-SCALING &amp; LOAD BALANCING ENTHUSIAST *** RIGHT-SIZED VMS = RELIABILITY + LOWER BILLS ***
-                BEST VIEWED WITH ANY MODERN BROWSER *** MADE WITH &#10084; IN SAMARINDA ***
+            <span class="marquee-content" aria-hidden="true">
+                IT'S ALWAYS DNS *** THERE IS NO CLOUD, IT'S JUST SOMEONE ELSE'S COMPUTER ***
+                IT WORKS ON MY MACHINE *** BEST VIEWED WITH ANY MODERN BROWSER ***
             </span>
         </div>
     </div>
 
-    <div class="container">
-        <div class="content">
-            <div class="logo">
-                <img src="./img/logo-tp.png" alt="Istaqom Logo" class="logo-img">
-            </div>
-
-            <div class="profile-section">
-                <div class="profile-text gray-box">
+    <main class="desktop">
+        <section class="window window-wide" id="win-about" data-title="~/about.txt" data-icon="img/logo-tp.png">
+            <div class="window-body profile-section">
+                <div class="profile-text">
                     <h1 class="name">Hi, I'm Istaqom Wirawan Adi Pratama</h1>
                     <h2 class="title">&gt; Cloud Engineer</h2>
                     <p class="description">
                         A <script>document.write(calculate_age(new Date(2002, 9, 15)))</script>-year-old from Samarinda, Indonesia.
-                        I build and run apps on the cloud with a background in <span class="highlight">web development</span>,
-                        now focused on <span class="highlight">Google Cloud Platform</span>.
+                        Started out in <span class="highlight">web development</span>,
+                        now working mostly on <span class="highlight">Google Cloud Platform</span>.
                     </p>
                 </div>
                 <div class="profile-image">
-                    <img src="./img/me.jpg" alt="Istaqom Wirawan" class="me">
+                    <div class="me-wrap">
+                        <img src="./img/me.jpg" alt="Istaqom Wirawan" class="me">
+                        <span class="me-bubble" aria-hidden="true">hello, world!</span>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="cloud-section gray-box">
+        <section class="window" id="win-cloud" data-title="~/cloud-engineering.log" data-icon="img/gcp.svg">
+            <div class="window-body">
                 <div class="cloud-heading">
                     <h3 class="section-title">// Cloud Engineering</h3>
                     <img src="img/gcp-wordmark.svg" alt="Google Cloud" class="gcp-wordmark">
                 </div>
                 <p class="cloud-text">
-                    Now a <strong>Cloud Engineer</strong> utilizing <strong>Google Cloud Platform (GCP)</strong>.
-                    I have hands-on experience setting up <span class="highlight">auto-scaling</span> and
-                    <span class="highlight">load balancing</span> with the right VM specs for the job.
+                    Working as a <strong>Cloud Engineer</strong>, managing infrastructure on <strong>Google Cloud Platform (GCP)</strong>.
+                    Mostly setting up <span class="highlight">auto-scaling</span>, <span class="highlight">load balancing</span>,
+                    and picking the right VM specs so apps stay reliable without overspending.
                 </p>
             </div>
+        </section>
 
-            <div class="skills-section">
-                <div class="skill-category gray-box">
-                    <h3 class="section-title">// Languages</h3>
-                    <p class="skill-subtitle">that I'm quite good at</p>
-                    <div class="skills-grid">
-                        <div class="skill-item">
-                            <img src="img/php.svg" alt="PHP">
-                            <span>PHP</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/html-5.svg" alt="HTML">
-                            <span>HTML</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/python.svg" alt="Python">
-                            <span>Python</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/js.svg" alt="JavaScript">
-                            <span>JavaScript</span>
-                        </div>
+        <section class="window window-skill" id="win-languages" data-title="~/skills/languages" data-icon="img/icon-code.svg">
+            <div class="window-body skill-category">
+                <h3 class="section-title">// Languages</h3>
+                <p class="skill-subtitle">that I'm quite good at</p>
+                <div class="skills-grid">
+                    <div class="skill-item" data-tip="lambo lu warna apa bos?">
+                        <img src="img/php.svg" alt="PHP">
+                        <span>PHP</span>
                     </div>
-                </div>
-
-                <div class="skill-category gray-box">
-                    <h3 class="section-title">// Frameworks</h3>
-                    <p class="skill-subtitle">that I usually use</p>
-                    <div class="skills-grid">
-                        <div class="skill-item">
-                            <img src="img/laravel.svg" alt="Laravel">
-                            <span>Laravel</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/jquery.svg" alt="jQuery">
-                            <span>jQuery</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/nodejs.svg" alt="NodeJS">
-                            <span>NodeJS</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/react.svg" alt="React">
-                            <span>React</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/vue.svg" alt="Vue">
-                            <span>Vue</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/tailwind-css.svg" alt="Tailwind CSS">
-                            <span>Tailwind CSS</span>
-                        </div>
+                    <div class="skill-item" data-tip="yeah I program using HTML bro">
+                        <img src="img/html-5.svg" alt="HTML">
+                        <span>HTML</span>
                     </div>
-                </div>
-
-                <div class="skill-category gray-box">
-                    <h3 class="section-title">// Cloud</h3>
-                    <p class="skill-subtitle">where I build &amp; scale</p>
-                    <div class="skills-grid">
-                        <div class="skill-item">
-                            <img src="img/gcp.svg" alt="Google Cloud Platform">
-                            <span>Google Cloud Platform</span>
-                        </div>
-                        <div class="skill-item" data-tip="I use this to manage my domains &amp; security rules">
-                            <img src="img/cloudflare.svg" alt="Cloudflare">
-                            <span>Cloudflare</span>
-                        </div>
-                        <div class="skill-item" data-tip="My go-to when I need a VPS">
-                            <img src="img/webhorizon.png" alt="WebHorizon">
-                            <span>WebHorizon</span>
-                        </div>
-                        <div class="skill-item" data-tip="This is where I buy my domains">
-                            <img src="img/rumahweb.png" alt="RumahWeb">
-                            <span>RumahWeb</span>
-                        </div>
+                    <div class="skill-item" data-tip="import every single thing to the code">
+                        <img src="img/python.svg" alt="Python">
+                        <span>Python</span>
                     </div>
-                </div>
-
-                <div class="skill-category gray-box">
-                    <h3 class="section-title">// Tools</h3>
-                    <p class="skill-subtitle">that I love to use</p>
-                    <div class="skills-grid">
-                        <div class="skill-item">
-                            <img src="img/commandcode.svg" alt="Command Code">
-                            <span>Command Code</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/git.svg" alt="Git">
-                            <span>Git</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/cursor.svg" alt="Cursor">
-                            <span>Cursor</span>
-                        </div>
-                        <div class="skill-item">
-                            <img src="img/wireguard.svg" alt="WireGuard">
-                            <span>WireGuard</span>
-                        </div>
+                    <div class="skill-item" data-tip="new framework every 5 minutes">
+                        <img src="img/js.svg" alt="JavaScript">
+                        <span>JavaScript</span>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="social-section">
-                <div class="social-links">
-                    <a href="mailto://istaqom@gmail.com" class="social-link">
-                        <img src="img/gmail.svg" alt="Email">
+        <section class="window window-skill" id="win-frameworks" data-title="~/skills/frameworks" data-icon="img/icon-layers.svg">
+            <div class="window-body skill-category">
+                <h3 class="section-title">// Frameworks</h3>
+                <p class="skill-subtitle">that I usually use</p>
+                <div class="skills-grid">
+                    <div class="skill-item" data-tip="standard web for Indonesian government">
+                        <img src="img/laravel.svg" alt="Laravel">
+                        <span>Laravel</span>
+                    </div>
+                    <div class="skill-item" data-tip="please let me die">
+                        <img src="img/jquery.svg" alt="jQuery">
+                        <span>jQuery</span>
+                    </div>
+                    <div class="skill-item" data-tip="backend but actually frontend">
+                        <img src="img/nodejs.svg" alt="NodeJS">
+                        <span>NodeJS</span>
+                    </div>
+                    <div class="skill-item" data-tip="useState everywhere">
+                        <img src="img/react.svg" alt="React">
+                        <span>React</span>
+                    </div>
+                    <div class="skill-item" data-tip="React but simpler, but nobody uses it">
+                        <img src="img/vue.svg" alt="Vue">
+                        <span>Vue</span>
+                    </div>
+                    <div class="skill-item" data-tip="class name longer than the code">
+                        <img src="img/tailwind-css.svg" alt="Tailwind CSS">
+                        <span>Tailwind CSS</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-skill" id="win-cloud-stack" data-title="~/skills/cloud" data-icon="img/icon-cloud.svg">
+            <div class="window-body skill-category">
+                <h3 class="section-title">// Cloud</h3>
+                <p class="skill-subtitle">where I build &amp; scale</p>
+                <div class="skills-grid">
+                    <div class="skill-item" data-tip="I forgot to release the public IP of a dead VM and got billed">
+                        <img src="img/gcp.svg" alt="Google Cloud Platform">
+                        <span>Google Cloud Platform</span>
+                    </div>
+                    <div class="skill-item" data-tip="guards my domains. when it goes down, so does half the internet">
+                        <img src="img/cloudflare.svg" alt="Cloudflare">
+                        <span>Cloudflare</span>
+                    </div>
+                    <div class="skill-item" data-tip="cheap VPS go brrr. yes I have too many of them">
+                        <img src="img/webhorizon.png" alt="WebHorizon">
+                        <span>WebHorizon</span>
+                    </div>
+                    <div class="skill-item" data-tip="where I buy domains for projects I'll never finish">
+                        <img src="img/rumahweb.svg" alt="RumahWeb">
+                        <span>RumahWeb</span>
+                    </div>
+                    <div class="skill-item" data-tip="free VMware, but you click 'no subscription' every login">
+                        <img src="img/proxmox.svg" alt="Proxmox">
+                        <span>Proxmox</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-skill" id="win-tools" data-title="~/skills/tools" data-icon="img/icon-terminal.svg">
+            <div class="window-body skill-category">
+                <h3 class="section-title">// Tools</h3>
+                <p class="skill-subtitle">that I love to use</p>
+                <div class="skills-grid">
+                    <div class="skill-item" data-tip="I &quot;taste&quot; your code, you pay my token bills">
+                        <img src="img/commandcode.svg" alt="Command Code">
+                        <span>Command Code</span>
+                    </div>
+                    <div class="skill-item" data-tip="just push everything into main (or master if you're into that)">
+                        <img src="img/git.svg" alt="Git">
+                        <span>Git</span>
+                    </div>
+                    <div class="skill-item" data-tip="tab tab tab done">
+                        <img src="img/cursor.svg" alt="Cursor">
+                        <span>Cursor</span>
+                    </div>
+                    <div class="skill-item" data-tip="it just works, don't touch it">
+                        <img src="img/wireguard.svg" alt="WireGuard">
+                        <span>WireGuard</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-homelab" data-title="~/homelab" data-icon="img/icon-server.svg">
+            <div class="window-body terminal">
+                <div class="homelab-grid">
+                    <div>
+                        <p class="term-line">
+                            <span class="term-prompt">istaqom@magi:~$</span>
+                            <span class="term-typed" style="--chars: 8">neofetch</span>
+                        </p>
+                        <div class="fetch term-reveal" style="--i: 0">
+<pre class="fetch-logo" aria-hidden="true"> ██▄      ▄██
+  ▀██▄  ▄██▀
+    ▀████▀
+    ▄████▄
+  ▄██▀  ▀██▄
+ ██▀      ▀██</pre>
+                            <dl class="fetch-info">
+                                <div class="fetch-title">istaqom<span>@</span>magi</div>
+                                <div class="fetch-sep">------------</div>
+                                <div class="fetch-row"><dt>OS</dt><dd>Proxmox VE</dd></div>
+                                <div class="fetch-row"><dt>CPU</dt><dd>Intel Xeon E5-2680 v4 (14C/28T)</dd></div>
+                                <div class="fetch-row"><dt>RAM</dt><dd>32 GB DDR4-2400</dd></div>
+                                <div class="fetch-row"><dt>Storage</dt><dd>256 GB SSD + 3x 1 TB HDD</dd></div>
+                                <div class="fetch-row"><dt>Cooler</dt><dd>Ocypus Delta A40 EX Digital</dd></div>
+                                <div class="fetch-row"><dt>Case</dt><dd>VenomRX Aegon Black</dd></div>
+                                <div class="fetch-row"><dt>RGB</dt><dd>off (+0 FPS, +100 inner peace)</dd></div>
+                                <div class="fetch-colors" aria-hidden="true">
+                                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="term-line term-reveal" style="--i: 1">
+                            <span class="term-prompt">istaqom@magi:~$</span> services --status
+                        </p>
+                        <ul class="services term-reveal" style="--i: 2">
+                            <li class="service"><span class="service-dot"></span><span class="service-name">immich</span><span class="service-desc">Google Photos, but the storage is my problem</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">jellyfin</span><span class="service-desc">Netflix at home</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">crafty</span><span class="service-desc">babysits the Minecraft server</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">minecraft</span><span class="service-desc">the real reason the Xeon exists</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">filebrowser</span><span class="service-desc">my own Google Drive</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">qbittorrent</span><span class="service-desc">Linux ISOs, obviously</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">syncthing</span><span class="service-desc">Dropbox without the monthly bill</span></li>
+                        </ul>
+                        <p class="term-comment term-reveal" style="--i: 3"># 7 active, 0 failed (for now)</p>
+                    </div>
+                </div>
+                <p class="term-line term-reveal" style="--i: 4">
+                    <span class="term-prompt">istaqom@magi:~$</span> <span class="term-cursor"></span>
+                </p>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-git" data-title="~/git-stats" data-icon="img/icon-git.svg">
+            <div class="window-body terminal">
+                <div class="homelab-grid">
+                    <div>
+                        <p class="term-line">
+                            <span class="term-prompt">istaqom@magi:~$</span>
+                            <span class="term-typed" style="--chars: 26">gitstats --github --gitlab</span>
+                        </p>
+                        <dl class="git-stats term-reveal" style="--i: 0">
+                            <div class="fetch-row stat-row" data-stat-row="repos"><dt>repos</dt><dd data-stat="repos">...</dd></div>
+                            <div class="fetch-row stat-row" data-stat-row="stars"><dt>stars</dt><dd data-stat="stars">...</dd></div>
+                            <div class="fetch-row stat-row" data-stat-row="contributions" hidden><dt>contributions</dt><dd data-stat="contributions">...</dd></div>
+                            <div class="fetch-row stat-row" data-stat-row="followers"><dt>followers</dt><dd data-stat="followers">...</dd></div>
+                            <div class="fetch-row stat-row" data-stat-row="langs"><dt>top langs</dt><dd data-stat="langs">...</dd></div>
+                            <div class="fetch-row stat-row" data-stat-row="since"><dt>since</dt><dd data-stat="since">...</dd></div>
+                        </dl>
+                        <p class="term-comment term-reveal" style="--i: 1"># hover (or tap) a stat for the breakdown</p>
+                    </div>
+                    <div>
+                        <p class="term-line term-reveal" style="--i: 2">
+                            <span class="term-prompt">istaqom@magi:~$</span> ls ~/profiles
+                        </p>
+                        <div class="term-links term-reveal" style="--i: 3">
+                            <a href="https://github.com/istaqom" class="term-link">
+                                <img src="img/github.svg" alt="">
+                                <span>github</span>
+                            </a>
+                            <a href="https://gitlab.com/istaqom" class="term-link">
+                                <img src="img/gitlab.svg" alt="">
+                                <span>gitlab</span>
+                            </a>
+                        </div>
+                        <p class="term-comment term-reveal" style="--i: 4"># gitlab is mostly private repos, trust me</p>
+                    </div>
+                </div>
+                <div class="git-chart term-reveal" style="--i: 5">
+                    <img src="https://ghchart.rshah.org/e67e22/istaqom" alt="GitHub contribution graph for istaqom" loading="lazy">
+                </div>
+                <p class="term-line term-reveal" style="--i: 6">
+                    <span class="term-prompt">istaqom@magi:~$</span> <span class="term-cursor"></span>
+                </p>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-contact" data-title="~/contact.sh" data-icon="img/icon-mail.svg">
+            <div class="window-body terminal">
+                <p class="term-line">
+                    <span class="term-prompt">istaqom@magi:~$</span>
+                    <span class="term-typed" style="--chars: 12">./contact.sh</span>
+                </p>
+                <p class="term-out term-reveal" style="--i: 0">Pick a channel:</p>
+                <div class="term-links term-reveal" style="--i: 1">
+                    <a href="mailto:istaqom@gmail.com" class="term-link">
+                        <img src="img/gmail.svg" alt="">
+                        <span>email</span>
                     </a>
-                    <a href="https://www.facebook.com/istaqom/" class="social-link">
-                        <img src="img/facebook.svg" alt="Facebook">
+                    <a href="https://www.linkedin.com/in/istaqom" class="term-link">
+                        <img src="img/linkedin.svg" alt="">
+                        <span>linkedin</span>
                     </a>
-                    <a href="https://twitter.com/istaqom" class="social-link">
-                        <img src="img/twitter.svg" alt="Twitter">
+                    <a href="https://www.facebook.com/istaqom/" class="term-link">
+                        <img src="img/facebook.svg" alt="">
+                        <span>facebook</span>
                     </a>
-                    <a href="https://www.instagram.com/istaqomwirawan/" class="social-link">
-                        <img src="img/instagram.svg" alt="Instagram">
+                    <a href="https://twitter.com/istaqom" class="term-link">
+                        <img src="img/twitter.svg" alt="">
+                        <span>twitter</span>
+                    </a>
+                    <a href="https://www.instagram.com/istaqomwirawan/" class="term-link">
+                        <img src="img/instagram.svg" alt="">
+                        <span>instagram</span>
                     </a>
                 </div>
-                <p class="footer-text">Made with <span class="heart">&#10084;</span> in Samarinda</p>
-                <p class="footer-year">2020 - <script>document.write(new Date().getFullYear())</script></p>
+                <p class="term-line term-reveal" style="--i: 2">
+                    <span class="term-prompt">istaqom@magi:~$</span> echo $EMAIL
+                </p>
+                <p class="term-out term-reveal" style="--i: 3">
+                    <span class="term-email">istaqom@gmail.com</span>
+                    <button class="term-copy" type="button" hidden>copy</button>
+                </p>
+                <p class="term-comment term-reveal" style="--i: 4">
+                    # made with <span class="heart">&#10084;</span> in Samarinda, 2020 - <script>document.write(new Date().getFullYear())</script>
+                </p>
+                <p class="term-line term-reveal" style="--i: 5">
+                    <span class="term-prompt">istaqom@magi:~$</span> <span class="term-cursor"></span>
+                </p>
             </div>
+        </section>
+
+        <div class="desktop-empty" hidden>
+            <p>All windows closed.</p>
+            <p>Open them again from the <strong>Start</strong> menu.</p>
         </div>
-    </div>
+    </main>
+
+    <nav class="taskbar" aria-label="Taskbar">
+        <button class="start-btn" type="button" aria-haspopup="menu" aria-expanded="false">
+            <img src="img/logo-tp.png" alt="">
+            <span>Start</span>
+        </button>
+        <div class="start-menu" role="menu" hidden>
+            <p class="start-menu-header">istaqom@gcp:~$</p>
+            <ul class="start-menu-list"></ul>
+            <button class="start-menu-reset" type="button">Restore all windows</button>
+        </div>
+        <div class="taskbar-scroll">
+            <button class="taskbar-arrow taskbar-arrow-left" type="button" aria-label="Scroll taskbar left" hidden>
+                <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M6.5 2L3.5 5l3 3"/></svg>
+            </button>
+            <div class="taskbar-items"></div>
+            <button class="taskbar-arrow taskbar-arrow-right" type="button" aria-label="Scroll taskbar right" hidden>
+                <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3"/></svg>
+            </button>
+        </div>
+        <div class="taskbar-clock">
+            <time class="clock-time"></time>
+            <time class="clock-date"></time>
+        </div>
+    </nav>
 </body>
 </html>
