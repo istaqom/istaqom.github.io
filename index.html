@@ -14,11 +14,13 @@
     <meta property="og:url" content="https://istaqom.github.io/">
     <meta property="og:title" content="Istaqom Wirawan Adi Pratama | Cloud Engineer">
     <meta property="og:description" content="Cloud Engineer from Samarinda, Indonesia. Started out in web development, now working mostly on Google Cloud Platform.">
-    <meta property="og:image" content="https://istaqom.github.io/img/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Istaqom's portfolio, styled as a retro tiling window desktop">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:image" content="https://istaqom.github.io/img/og-logo.png">
+    <meta property="og:image:secure_url" content="https://istaqom.github.io/img/og-logo.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="600">
+    <meta property="og:image:alt" content="Istaqom's logo: a red letter i inside an orange octagon">
+    <meta name="twitter:card" content="summary">
     <meta name="twitter:creator" content="@istaqom">
 
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png">
@@ -51,18 +53,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
 
     <script>
+        // JS months are 0-based: 8 = September
+        var BIRTHDAY = new Date(2002, 8, 15);
+
         function calculate_age(dob) { 
             var diff_ms = Date.now() - dob.getTime();
             var age_dt = new Date(diff_ms); 
         
             return Math.abs(age_dt.getUTCFullYear() - 1970);
         }
+
+        try {
+            var savedTheme = localStorage.getItem('magi-theme');
+            if (!savedTheme) savedTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } catch (e) {}
+
+        // set before first paint so a refresh doesn't flash desktop 1; wm.js clears it
+        try {
+            var savedDesk = sessionStorage.getItem('magi-desk');
+            if (savedDesk) document.documentElement.setAttribute('data-desk', savedDesk);
+        } catch (e) {}
     </script>
+    <script src="module/sfx.js" defer></script>
     <script src="module/wm.js" defer></script>
     <script src="module/marquee.js" defer></script>
     <script src="module/profile.js" defer></script>
     <script src="module/gitstats.js" defer></script>
     <script src="module/shell.js" defer></script>
+    <script src="module/logocolor.js" defer></script>
+    <script src="module/calendar.js" defer></script>
+    <script src="module/music-data.js" defer></script>
+    <script src="module/ytm-data.js" defer></script>
+    <script src="module/hobby.js" defer></script>
 </head>
 <body>
     <div class="marquee-container">
@@ -78,14 +101,15 @@
         </div>
     </div>
 
-    <main class="desktop">
-        <section class="window window-wide" id="win-about" data-title="~/about.txt" data-icon="img/logo-tp.png">
+    <main class="workspaces">
+    <div class="desktop" id="desktop-1" data-name="Main" aria-label="Desktop 1: Main">
+        <section class="window window-wide" id="win-about" data-category="profile" data-desc="Who even is this guy" data-favorite data-title="~/about.txt" data-icon="img/logo-tp.png">
             <div class="window-body profile-section">
                 <div class="profile-text">
                     <h1 class="name">Hi, I'm Istaqom Wirawan Adi Pratama</h1>
                     <h2 class="title">&gt; Cloud Engineer</h2>
                     <p class="description">
-                        A <script>document.write(calculate_age(new Date(2002, 9, 15)))</script>-year-old from Samarinda, Indonesia.
+                        A <script>document.write(calculate_age(BIRTHDAY))</script>-year-old from Samarinda, Indonesia.
                         Started out in <span class="highlight">web development</span>,
                         now working mostly on <span class="highlight">Google Cloud Platform</span>.
                     </p>
@@ -99,7 +123,7 @@
             </div>
         </section>
 
-        <section class="window" id="win-cloud" data-title="~/cloud-engineering.log" data-icon="img/gcp.svg">
+        <section class="window" id="win-cloud" data-category="profile" data-desc="Day job, GCP edition" data-title="~/cloud-engineering.log" data-icon="img/gcp.svg">
             <div class="window-body">
                 <div class="cloud-heading">
                     <h3 class="section-title">// Cloud Engineering</h3>
@@ -113,7 +137,7 @@
             </div>
         </section>
 
-        <section class="window window-skill" id="win-languages" data-title="~/skills/languages" data-icon="img/icon-code.svg">
+        <section class="window window-skill" id="win-languages" data-category="skills" data-desc="Things I write code in" data-title="~/skills/languages" data-icon="img/icon-code.svg">
             <div class="window-body skill-category">
                 <h3 class="section-title">// Languages</h3>
                 <p class="skill-subtitle">that I'm quite good at</p>
@@ -138,7 +162,7 @@
             </div>
         </section>
 
-        <section class="window window-skill" id="win-frameworks" data-title="~/skills/frameworks" data-icon="img/icon-layers.svg">
+        <section class="window window-skill" id="win-frameworks" data-category="skills" data-desc="Things I write code with" data-title="~/skills/frameworks" data-icon="img/icon-layers.svg">
             <div class="window-body skill-category">
                 <h3 class="section-title">// Frameworks</h3>
                 <p class="skill-subtitle">that I usually use</p>
@@ -171,7 +195,7 @@
             </div>
         </section>
 
-        <section class="window window-skill" id="win-cloud-stack" data-title="~/skills/cloud" data-icon="img/icon-cloud.svg">
+        <section class="window window-skill" id="win-cloud-stack" data-category="skills" data-desc="Where stuff gets deployed" data-title="~/skills/cloud" data-icon="img/icon-cloud.svg">
             <div class="window-body skill-category">
                 <h3 class="section-title">// Cloud</h3>
                 <p class="skill-subtitle">where I build &amp; scale</p>
@@ -200,7 +224,7 @@
             </div>
         </section>
 
-        <section class="window window-skill" id="win-tools" data-title="~/skills/tools" data-icon="img/icon-terminal.svg">
+        <section class="window window-skill" id="win-tools" data-category="skills" data-desc="Daily drivers" data-title="~/skills/tools" data-icon="img/icon-terminal.svg">
             <div class="window-body skill-category">
                 <h3 class="section-title">// Tools</h3>
                 <p class="skill-subtitle">that I love to use</p>
@@ -225,7 +249,7 @@
             </div>
         </section>
 
-        <section class="window window-full" id="win-homelab" data-title="~/homelab" data-icon="img/icon-server.svg">
+        <section class="window window-full" id="win-homelab" data-category="system" data-desc="The Xeon box under the desk" data-favorite data-title="~/homelab" data-icon="img/icon-server.svg">
             <div class="window-body terminal">
                 <div class="homelab-grid">
                     <div>
@@ -268,8 +292,9 @@
                             <li class="service"><span class="service-dot"></span><span class="service-name">filebrowser</span><span class="service-desc">my own Google Drive</span></li>
                             <li class="service"><span class="service-dot"></span><span class="service-name">qbittorrent</span><span class="service-desc">Linux ISOs, obviously</span></li>
                             <li class="service"><span class="service-dot"></span><span class="service-name">syncthing</span><span class="service-desc">Dropbox without the monthly bill</span></li>
+                            <li class="service"><span class="service-dot"></span><span class="service-name">librechat</span><span class="service-desc">ChatGPT at home, but I pay per token</span></li>
                         </ul>
-                        <p class="term-comment term-reveal" style="--i: 3"># 7 active, 0 failed (for now)</p>
+                        <p class="term-comment term-reveal" style="--i: 3"># 8 active, 0 failed (for now)</p>
                     </div>
                 </div>
                 <div class="term-history" aria-live="polite"></div>
@@ -283,7 +308,7 @@
             </div>
         </section>
 
-        <section class="window window-full" id="win-git" data-title="~/git-stats" data-icon="img/icon-git.svg">
+        <section class="window window-full" id="win-git" data-category="system" data-desc="Receipts, literally" data-favorite data-title="~/git-stats" data-icon="img/icon-git.svg">
             <div class="window-body git-board">
                 <div class="receipt-wrap">
                     <div class="receipt">
@@ -344,7 +369,7 @@
             </div>
         </section>
 
-        <section class="window window-full" id="win-contact" data-title="~/contact.sh" data-icon="img/icon-mail.svg">
+        <section class="window window-full" id="win-contact" data-category="profile" data-desc="Say hi" data-favorite data-title="~/contact.sh" data-icon="img/icon-mail.svg">
             <div class="window-body terminal">
                 <p class="term-line">
                     <span class="term-prompt">istaqom@magi:~$</span>
@@ -391,19 +416,1154 @@
 
         <div class="desktop-empty" hidden>
             <p>All windows closed.</p>
-            <p>Open them again from the <strong>Start</strong> menu.</p>
+            <p>Open them again from the <strong>Start</strong> menu (the logo, bottom left).</p>
         </div>
+    </div>
+
+    <div class="desktop" id="desktop-2" data-name="Career" aria-label="Desktop 2: Career" hidden>
+        <section class="window window-full" id="win-profile" data-category="career" data-desc="LinkedIn header, minus the Premium upsell" data-title="~/profile.card" data-icon="img/linkedin.svg">
+            <div class="window-body li-card">
+                <img class="li-cover" src="img/cover.jpg" alt="" loading="lazy">
+                <div class="li-head">
+                    <div class="li-avatar-wrap">
+                        <img class="li-avatar" src="img/me-linkedin.jpg" alt="Istaqom Wirawan" loading="lazy">
+                        <span class="me-bubble li-bubble" aria-hidden="true">open to work? already working</span>
+                    </div>
+                    <div class="li-info">
+                        <h2 class="li-name">Istaqom Wirawan Adi Pratama</h2>
+                        <p class="li-headline">Cloud Engineer at Mandau Gemilang Tech · Full Stack Developer</p>
+                        <p class="li-meta">Samarinda, East Kalimantan, Indonesia</p>
+                        <div class="li-actions">
+                            <a class="li-btn is-primary" href="https://www.linkedin.com/in/istaqom" target="_blank" rel="noopener">Connect</a>
+                            <a class="li-btn" href="mailto:istaqom@gmail.com">Message</a>
+                        </div>
+                    </div>
+                    <ul class="li-orgs">
+                        <li><img src="img/logo-mandau.png" alt="" loading="lazy"><span>Mandau Gemilang Tech</span></li>
+                        <li><img src="img/logo-itk.png" alt="" loading="lazy"><span>Institut Teknologi Kalimantan</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-wide" id="win-experience" data-category="career" data-desc="Where I've worked" data-favorite data-title="~/experience.md" data-icon="img/icon-briefcase.svg">
+            <div class="window-body">
+                <h2 class="section-title">// Experience</h2>
+                <p class="skill-subtitle">the LinkedIn version, minus the buzzwords</p>
+                <ol class="timeline">
+                    <li class="tl-item is-current">
+                        <img class="tl-logo" src="img/logo-mandau.png" alt="" loading="lazy">
+                        <div class="tl-main">
+                            <div class="tl-head">
+                                <h3 class="tl-role">Full Stack Developer</h3>
+                                <span class="tl-badge">current focus: Cloud Engineer</span>
+                            </div>
+                            <p class="tl-org"><a href="https://mandau.co.id" target="_blank" rel="noopener">Mandau Gemilang Tech</a></p>
+                            <p class="tl-date"><time datetime="2026-05">May 2026</time> - Present · <span data-since="2026-05">6 mos</span></p>
+                            <ul class="tl-notes">
+                                <li>Full Stack Developer on paper, building web apps front to back</li>
+                                <li>Day to day it's mostly cloud engineering now (see <code>~/cloud-engineering.log</code> on Desktop 1)</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="tl-item">
+                        <img class="tl-logo" src="img/logo-bangkit.png" alt="" loading="lazy">
+                        <div class="tl-main">
+                            <h3 class="tl-role">Cloud Computing Cohort</h3>
+                            <p class="tl-org">Bangkit Academy led by Google, Tokopedia, Gojek, &amp; Traveloka</p>
+                            <p class="tl-date">Apprenticeship · <time datetime="2023-02">Feb 2023</time> - <time datetime="2023-06">Jun 2023</time> · 5 mos · Remote</p>
+                            <ul class="tl-notes">
+                                <li>Where the cloud thing started, plus a stack of Dicoding certs along the way (see <code>~/certs</code>)</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ol>
+                <p class="tl-skills">
+                    <span>top skills:</span>
+                    <span class="highlight">Web Development</span>
+                    <span class="highlight">Networking</span>
+                    <span class="highlight">Back-End Web Development</span>
+                </p>
+            </div>
+        </section>
+
+        <section class="window" id="win-education" data-category="career" data-desc="Where I learned to Google errors" data-title="~/education.md" data-icon="img/icon-cap.svg">
+            <div class="window-body">
+                <h2 class="section-title">// Education</h2>
+                <p class="skill-subtitle">the official version</p>
+                <ol class="timeline">
+                    <li class="tl-item">
+                        <img class="tl-logo" src="img/logo-itk.png" alt="" loading="lazy">
+                        <div class="tl-main">
+                            <h3 class="tl-role">Bachelor's degree, Informatics</h3>
+                            <p class="tl-org">Institut Teknologi Kalimantan</p>
+                            <p class="tl-date"><time datetime="2020-09">Sep 2020</time> - <time datetime="2025-01">Jan 2025</time></p>
+                            <p class="tl-tags"><span>Networking</span><span>Back-End Web Development</span></p>
+                        </div>
+                    </li>
+                    <li class="tl-item">
+                        <img class="tl-logo" src="img/logo-smkn7.png" alt="" loading="lazy">
+                        <div class="tl-main">
+                            <h3 class="tl-role">Software Engineering <span class="tl-alt">(Rekayasa Perangkat Lunak)</span></h3>
+                            <p class="tl-org">SMK Negeri 7 Samarinda</p>
+                            <p class="tl-date"><time datetime="2017-07">Jul 2017</time> - <time datetime="2020-07">Jul 2020</time></p>
+                            <p class="tl-tags"><span>Web Development</span></p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-certs" data-category="career" data-desc="Mostly expired, like real TLS certs" data-title="~/certs" data-icon="img/icon-cert.svg">
+            <div class="window-body">
+                <div class="cert-top">
+                    <div>
+                        <h2 class="section-title">// Certifications</h2>
+                        <p class="skill-subtitle" data-cert-summary>courses I finished, receipts included</p>
+                    </div>
+                    <div class="cert-filters" role="group" aria-label="Filter certifications">
+                        <button type="button" class="cert-filter is-active" data-filter="all" aria-pressed="true">All <span></span></button>
+                        <button type="button" class="cert-filter" data-filter="valid" aria-pressed="false">Active <span></span></button>
+                        <button type="button" class="cert-filter" data-filter="expired" aria-pressed="false">Expired <span></span></button>
+                    </div>
+                </div>
+                <div class="cert-report">
+                    <p class="cert-grade" data-cert-grade aria-label="Overall rating">?</p>
+                    <div class="cert-report-main">
+                        <p class="cert-report-title">Overall rating <span class="cert-verdict" data-cert-verdict></span></p>
+                        <div class="cert-bar" data-cert-bar aria-hidden="true"></div>
+                        <p class="cert-log" data-cert-log aria-live="polite">Last renewal attempt: never</p>
+                    </div>
+                    <button type="button" class="cert-renew" data-cert-renew>
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 1 1 11.9 4.1M13.5 2v3h-3"/></svg>
+                        <span>Renew all</span>
+                    </button>
+                </div>
+                <ul class="cert-list">
+                    <li class="cert-head" aria-hidden="true"><span></span><span>Certificate</span><span class="cert-meta"><span>Issuer</span><span>Issued</span></span><span>Status</span><span></span></li>
+                    <li class="cert" data-expires="2026-05">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Menjadi Google Cloud Engineer"><span class="cert-name">Become a Google Cloud Engineer</span> <span class="cert-orig" lang="id">Menjadi Google Cloud Engineer</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">May 2023</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/MRZMQLGMNPYQ" target="_blank" rel="noopener" aria-label="Show credential: Become a Google Cloud Engineer" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2026-03">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Belajar Membuat Aplikasi Back-End untuk Pemula dengan Google Cloud"><span class="cert-name">Back-End Apps for Beginners with Google Cloud</span> <span class="cert-orig" lang="id">Belajar Membuat Aplikasi Back-End untuk Pemula dengan Google Cloud</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">Mar 2023</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/72ZD94LOJPYW" target="_blank" rel="noopener" aria-label="Show credential: Back-End Apps for Beginners with Google Cloud" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2026-03">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Belajar Dasar Pemrograman JavaScript"><span class="cert-name">JavaScript Programming Basics</span> <span class="cert-orig" lang="id">Belajar Dasar Pemrograman JavaScript</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">Mar 2023</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/QLZ92WNGDX5D" target="_blank" rel="noopener" aria-label="Show credential: JavaScript Programming Basics" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2026-03">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Belajar Dasar Pemrograman Web"><span class="cert-name">Web Programming Basics</span> <span class="cert-orig" lang="id">Belajar Dasar Pemrograman Web</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">Mar 2023</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/07Z6GYE6JXQR" target="_blank" rel="noopener" aria-label="Show credential: Web Programming Basics" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2026-02">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Belajar Dasar Git dengan GitHub"><span class="cert-name">Git Basics with GitHub</span> <span class="cert-orig" lang="id">Belajar Dasar Git dengan GitHub</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">Feb 2023</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/RVZKO112OPD5" target="_blank" rel="noopener" aria-label="Show credential: Git Basics with GitHub" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2025-05">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Belajar Dasar Google Cloud"><span class="cert-name">Google Cloud Basics</span> <span class="cert-orig" lang="id">Belajar Dasar Google Cloud</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">May 2022</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/EYX4227NJZDL" target="_blank" rel="noopener" aria-label="Show credential: Google Cloud Basics" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2024-12">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Membangun Arsitektur Cloud di AWS"><span class="cert-name">Architecting on AWS</span> <span class="cert-orig" lang="id">Membangun Arsitektur Cloud di AWS</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">Dec 2021</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/MRZMKRWRLPYQ" target="_blank" rel="noopener" aria-label="Show credential: Architecting on AWS" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert" data-expires="2024-09">
+                        <img class="cert-logo" src="img/dicoding.png" alt="" loading="lazy">
+                        <p class="cert-title" title="Belajar Dasar AWS Cloud"><span class="cert-name">Cloud Practitioner Essentials</span> <span class="cert-orig" lang="id">Belajar Dasar AWS Cloud</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Dicoding</span><span class="cert-date">Sep 2021</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.dicoding.com/certificates/ERZR4E97MZYV" target="_blank" rel="noopener" aria-label="Show credential: Cloud Practitioner Essentials" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert">
+                        <img class="cert-logo" src="img/hackerrank.svg" alt="" loading="lazy">
+                        <p class="cert-title"><span class="cert-name">Python (Basic)</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">HackerRank</span><span class="cert-date">Sep 2021</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.hackerrank.com/certificates/ae53823b98e7" target="_blank" rel="noopener" aria-label="Show credential: Python (Basic)" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert">
+                        <img class="cert-logo" src="img/sololearn.svg" alt="" loading="lazy">
+                        <p class="cert-title"><span class="cert-name">PHP Course</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Sololearn</span><span class="cert-date">Nov 2020</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.sololearn.com/certificates/1059-6568344" target="_blank" rel="noopener" aria-label="Show credential: PHP Course" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                    <li class="cert">
+                        <img class="cert-logo" src="img/sololearn.svg" alt="" loading="lazy">
+                        <p class="cert-title"><span class="cert-name">HTML Course</span></p>
+                        <span class="cert-meta"><span class="cert-issuer">Sololearn</span><span class="cert-date">Dec 2019</span></span>
+                        <span class="cert-status"></span>
+                        <a class="cert-link" href="https://www.sololearn.com/certificates/1014-6568344" target="_blank" rel="noopener" aria-label="Show credential: HTML Course" title="Show credential"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3H3.5v9.5H13V10M9 3h4v4M13 3L7.5 8.5"/></svg></a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-career" data-category="career" data-desc="The same story, as a commit history" data-title="~/career.git" data-icon="img/icon-branch.svg">
+            <div class="window-body gh">
+                <div class="gh-bar">
+                    <span class="gh-branch">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="5" cy="3.5" r="1.5"/><circle cx="5" cy="12.5" r="1.5"/><circle cx="11" cy="5" r="1.5"/><path d="M5 5v6M11 6.5c0 2.5-2.5 3-6 4.5"/></svg>
+                        main
+                    </span>
+                    <span class="gh-repo">istaqom / <strong>career</strong></span>
+                    <span class="gh-count">11 commits</span>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2026</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">refactor: shift focus to cloud engineering</p>
+                                <p class="gh-desc">Still a Full Stack Developer on paper. These days it is mostly Google Cloud.</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed just now</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">c10ud42</code>
+                            </div>
+                        </li>
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">feat: join Mandau Gemilang Tech as Full Stack Developer</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in May 2026</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">3a9d0f1</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2025</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">chore: finish Informatics at Institut Teknologi Kalimantan</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Jan 2025</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">f1a2025</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2023</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">Merge pull request #1 from istaqom/bangkit</p>
+                                <p class="gh-desc">Bangkit Academy Cloud Computing Cohort, 5 months, remote</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Jun 2023</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">e2b7c90</code>
+                            </div>
+                        </li>
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">feat: earn &quot;Become a Google Cloud Engineer&quot; <span class="gh-label">bangkit</span></p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in May 2023</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">8b1f3e2</code>
+                            </div>
+                        </li>
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">feat: start Bangkit Academy cloud computing cohort <span class="gh-label">bangkit</span></p>
+                                <p class="gh-desc">Led by Google, Tokopedia, Gojek, &amp; Traveloka</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Feb 2023</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">9e4d1aa</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2021</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">feat: first cloud cert, AWS Cloud Practitioner Essentials</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Sep 2021</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">a3f5c71</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2020</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">feat: start Informatics at Institut Teknologi Kalimantan</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Sep 2020</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">5f1c2b8</code>
+                            </div>
+                        </li>
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">chore: finish Software Engineering at SMK Negeri 7 Samarinda</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Jul 2020</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">2e7a1d4</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2019</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">feat: first certificate, for HTML (it counts)</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Dec 2019</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">7d3e9a0</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="gh-group">
+                    <h3 class="gh-day">Commits in 2017</h3>
+                    <ol class="gh-commits">
+                        <li class="gh-commit">
+                            <div class="gh-main">
+                                <p class="gh-msg">Initial commit</p>
+                                <p class="gh-desc">Software Engineering (Rekayasa Perangkat Lunak) at SMK Negeri 7 Samarinda</p>
+                                <p class="gh-meta"><img src="img/logo-64.png" alt="" loading="lazy"><strong>istaqom</strong> committed in Jul 2017</p>
+                            </div>
+                            <div class="gh-side">
+                                <span class="gh-verified">Verified</span>
+                                <code class="gh-sha">0c0ffee</code>
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+                <a class="gh-more" href="https://www.linkedin.com/in/istaqom" target="_blank" rel="noopener">View full history on LinkedIn &#8599;</a>
+            </div>
+        </section>
+
+        <div class="desktop-empty" hidden>
+            <p>All windows closed.</p>
+            <p>Open them again from the <strong>Start</strong> menu (the logo, bottom left).</p>
+        </div>
+    </div>
+
+    <div class="desktop" id="desktop-3" data-name="Hobby" aria-label="Desktop 3: Hobby" hidden>
+        <section class="window window-wide" id="win-music" data-category="hobby" data-favorite data-desc="My Bandcamp collection, on repeat" data-title="~/my-bandcamp" data-icon="img/icon-disc.svg">
+            <div class="window-body">
+                <div class="np">
+                    <div class="np-bc">
+                        <a class="np-bc-me" href="https://bandcamp.com/istaqom" target="_blank" rel="noopener"><span class="np-bc-logo" aria-hidden="true"></span>bandcamp.com/<strong>istaqom</strong></a>
+                        <ul class="np-bc-links">
+                            <li><a href="https://bandcamp.com/istaqom" target="_blank" rel="noopener"><strong>8</strong> collection</a></li>
+                            <li><a href="https://bandcamp.com/istaqom/wishlist" target="_blank" rel="noopener"><strong>16</strong> wishlist</a></li>
+                            <li><a href="https://bandcamp.com/istaqom/following/artists_and_labels" target="_blank" rel="noopener"><strong>8</strong> following</a></li>
+                        </ul>
+                    </div>
+                    <div class="np-deck">
+                        <span class="np-disc" aria-hidden="true"><img data-np-label src="img/hobby/bc-gudank.jpg" alt=""></span>
+                        <img class="np-cover" data-np-cover src="img/hobby/bc-gudank.jpg" alt="" loading="lazy">
+                        <p class="np-quip" data-np-quip aria-live="polite" hidden></p>
+                    </div>
+                    <div class="np-info">
+                        <p class="np-kicker"><span class="np-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-np-state>From my Bandcamp</span></p>
+                        <h2 class="np-title" data-np-title>Gudank Djarum</h2>
+                        <p class="np-artist" data-np-artist>Fish Tank Radio</p>
+                        <p class="np-meta" data-np-meta>Album · bought Aug 2026 · start with "Korek Api"</p>
+                        <div class="np-controls">
+                            <button type="button" class="np-btn" data-np-prev aria-label="Previous record"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 3v10M13 3.5L6 8l7 4.5z"/></svg></button>
+                            <span class="np-index" data-np-index>1 / 8</span>
+                            <button type="button" class="np-btn" data-np-next aria-label="Next record"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.5 3v10M3 3.5L10 8l-7 4.5z"/></svg></button>
+                            <a class="np-link" data-np-link href="https://fishtankradio.bandcamp.com/album/gudank-djarum" target="_blank" rel="noopener">Open on Bandcamp &#8599;</a>
+                        </div>
+                    </div>
+                    <div class="np-embed" data-np-embed tabindex="-1">
+                        <a class="np-hit" data-np-hit href="https://fishtankradio.bandcamp.com/album/gudank-djarum" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a>
+                        <span class="np-progress" aria-hidden="true"><i data-np-bar></i></span>
+                    </div>
+                    <div class="np-tracks">
+                        <p class="np-tracks-head"><span>Tracklist</span> <span data-np-total></span></p>
+                        <ol class="np-tracklist" data-np-tracks></ol>
+                    </div>
+                    <ol class="np-queue" aria-label="Bandcamp collection">
+                        <li><button type="button" class="np-item is-active" data-embed="album=1209455789" data-tracks="[[&quot;Korek Api&quot;, 118], [&quot;Supermarket&quot;, 114]]" data-url="https://fishtankradio.bandcamp.com/album/gudank-djarum" data-artist="Fish Tank Radio" data-meta="Album · bought Aug 2026 · start with &quot;Korek Api&quot;"><img src="img/hobby/bc-gudank.jpg" alt="" loading="lazy"><span>Gudank Djarum</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="track=2890306130" data-tracks="[[&quot;Gravits (Alternate Version)&quot;, 277]]" data-url="https://crayoncase.bandcamp.com/track/gravits-alternate-version" data-artist="Crayon Case" data-meta="Single · bought Apr 2026 · the alternate version, specifically"><img src="img/hobby/bc-gravits.jpg" alt="" loading="lazy"><span>Gravits (Alternate Version)</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="album=687617436" data-tracks="[[&quot;Dinner With Luis&quot;, 65], [&quot;BiRDMAN (that Michael Keaton movie)&quot;, 167], [&quot;It&#x27;s called hustle culture, not hustle community&quot;, 117], [&quot;I am worse than a drug&quot;, 149], [&quot;1st Edition Holo Charizard&quot;, 147], [&quot;You liked my story, that means you love me&quot;, 143], [&quot;There&#x27;s no crying in baseball&quot;, 138], [&quot;Dinner with Luis (instrumental)&quot;, 65], [&quot;BiRDMAN (instrumental)&quot;, 165], [&quot;It&#x27;s called hustle culture, not hustle community (instrumental)&quot;, 117], [&quot;I am worse than a drug (instrumental)&quot;, 149], [&quot;1st Edition Holo Charizard (instrumental)&quot;, 147], [&quot;You liked my story, that means you love me (instrumental)&quot;, 136]]" data-url="https://nurturenurture.bandcamp.com/album/emergence" data-artist="Nurture Nurture" data-meta="Album · bought Mar 2026 · start with &quot;Dinner With Luis&quot;"><img src="img/hobby/bc-emergence.jpg" alt="" loading="lazy"><span>Emergence</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="track=1149174172" data-tracks="[[&quot;Calling for You (ft. Oktae)&quot;, 221]]" data-url="https://venjent.bandcamp.com/track/calling-for-you-ft-oktae" data-artist="Venjent" data-meta="Single · bought Mar 2026 · ft. Oktae"><img src="img/hobby/bc-calling.jpg" alt="" loading="lazy"><span>Calling for You</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="track=1008413423" data-tracks="[[&quot;All The Things She Said (Bootleg)&quot;, 256]]" data-url="https://venjent.bandcamp.com/track/all-the-things-she-said-bootleg" data-artist="Venjent" data-meta="Bootleg · bought Mar 2026 · yes, that t.A.T.u. song"><img src="img/hobby/bc-atttss.jpg" alt="" loading="lazy"><span>All The Things She Said (Bootleg)</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="track=1775489249" data-tracks="[[&quot;Bee Moved&quot;, 146]]" data-url="https://bluemondayfm.bandcamp.com/track/bee-moved" data-artist="Blue Monday FM" data-meta="Single · bought Mar 2026 · a pun, and a bop"><img src="img/hobby/bc-beemoved.jpg" alt="" loading="lazy"><span>Bee Moved</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="album=272087637" data-tracks="[[&quot;D&gt;E&gt;A&gt;T&gt;H&gt;M&gt;E&gt;T&gt;A&gt;L&quot;, 262], [&quot;Stabilisers For Big Boys&quot;, 252], [&quot;Laputa&quot;, 164], [&quot;The Eyes of Ibad&quot;, 418], [&quot;CUT&quot;, 293], [&quot;Sodium Chloride&quot;, 164], [&quot;Kicking Cars&quot;, 251], [&quot;D&gt;E&gt;A&gt;T&gt;H&gt;M&gt;E&gt;T&gt;A&gt;L_R&gt;O&gt;T&quot;, 261], [&quot;Stabilisers For Big Boys_R&gt;O&gt;T&quot;, 251], [&quot;Laputa_R&gt;O&gt;T&quot;, 165], [&quot;The Eyes of Ibad_R&gt;O&gt;T&quot;, 421]]" data-url="https://panchiko.bandcamp.com/album/d-e-a-t-h-m-e-t-a-l" data-artist="Panchiko" data-meta="EP · bought Feb 2026 · the internet-famous one"><img src="img/hobby/bc-deathmetal.jpg" alt="" loading="lazy"><span>D&gt;E&gt;A&gt;T&gt;H&gt;M&gt;E&gt;T&gt;A&gt;L</span></button></li>
+                        <li><button type="button" class="np-item" data-embed="album=926104336" data-tracks="[[&quot;Sukatani&quot;, 223], [&quot;Bayar Bayar Bayar&quot;, 193], [&quot;Semakin Tua Semakin Punk&quot;, 217], [&quot;Tanam Kemandirian&quot;, 232], [&quot;Alas Wirasaba&quot;, 214], [&quot;Realitas Konsumerisme&quot;, 346], [&quot;Jangan Bicara Solidaritas&quot;, 194], [&quot;Gelap Gempita&quot;, 243]]" data-url="https://tampuirecords.bandcamp.com/album/sukatani-gelap-gempita" data-artist="Sukatani" data-meta="Album · bought Feb 2025 · start with &quot;Alas Wirasaba&quot;"><img src="img/hobby/bc-gelap.jpg" alt="" loading="lazy"><span>Gelap Gempita</span></button></li>
+                    </ol>
+                    <p class="np-foot">Hit play on the player above. Bought on Bandcamp, kept as FLAC, synced to every device with Syncthing. 16 more on the wishlist, the wallet said no.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="window" id="win-library" data-category="hobby" data-desc="Local files, like it's 2008" data-title="~/library.db" data-icon="img/icon-library.svg">
+            <div class="window-body">
+                <h2 class="section-title">// Library <small>local files, like it's 2008</small></h2>
+                <div class="lib-top">
+                    <div class="lib-vinyl" role="img" aria-label="326 tracks: 132 Steam soundtracks, 82 iTunes, 68 ripped CDs, 43 Bandcamp, 1 Ototoy">
+                        <span><strong>326</strong>tracks</span>
+                    </div>
+                    <ul class="lib-legend">
+                        <li class="is-steam">Steam soundtracks <span>132</span></li>
+                        <li class="is-itunes">iTunes <span>82</span></li>
+                        <li class="is-cd">Ripped CDs <span>68</span></li>
+                        <li class="is-bandcamp">Bandcamp <span>43</span></li>
+                        <li class="is-ototoy">Ototoy <span>1</span></li>
+                    </ul>
+                </div>
+                <ul class="lib-chips">
+                    <li><strong>95</strong> albums</li>
+                    <li><strong>57</strong> artists</li>
+                    <li title="Total runtime"><strong>18.5</strong> h</li>
+                    <li title="On disk"><strong>7.1</strong> GB</li>
+                </ul>
+                <h3 class="lib-h">Release year, by decade</h3>
+                <ol class="lib-decades">
+                    <li style="--h: 1"><span>1</span><i></i>'60s</li>
+                    <li style="--h: 1"><span>1</span><i></i>'90s</li>
+                    <li style="--h: 18"><span>18</span><i></i>'00s</li>
+                    <li style="--h: 203"><span>203</span><i></i>'10s</li>
+                    <li style="--h: 101"><span>101</span><i></i>'20s</li>
+                </ol>
+                <h3 class="lib-h">Formats &amp; sample rates</h3>
+                <ul class="lib-formats">
+                    <li class="is-flac" title="Free Lossless Audio Codec"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 7v2M5 4v8M8 2v12M11 5v6M14 7v2"/></svg>FLAC <span>186</span></li>
+                    <li class="is-wav" title="Uncompressed PCM"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8c1.5-6 3.5-6 5 0s3.5 6 5 0 2.5-4 4-2"/></svg>WAV <span>58</span></li>
+                    <li class="is-m4a" title="AAC in an MPEG-4 container"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 12V3.5l7-1.5v8.5"/><circle cx="4.5" cy="12" r="1.8"/><circle cx="11.5" cy="10.5" r="1.8"/></svg>M4A <span>82</span></li>
+                    <li class="is-44"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8c3-7 4-7 7 0s4 7 7 0"/></svg>44.1 kHz <span>284</span></li>
+                    <li class="is-48"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8c1.5-6 2-6 3.5 0s2 6 3.5 0 2-6 3.5 0 2 6 3.5 0"/></svg>48 kHz <span>40</span></li>
+                    <li class="is-96"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M1 8c.8-5 1-5 1.75 0s1 5 1.75 0 1-5 1.75 0 1 5 1.75 0 1-5 1.75 0 1 5 1.75 0 1-5 1.75 0 1 5 1.75 0"/></svg>96 kHz <span>2</span></li>
+                </ul>
+                <h3 class="lib-h">Bit depth census</h3>
+                <div class="lib-census" role="img" aria-label="Bit depth: 233 tracks 16-bit, 11 tracks 24-bit, 82 tracks lossy AAC">
+                    <span class="is-16" style="--n: 233"></span><span class="is-24" style="--n: 11"></span><span class="is-aac" style="--n: 82"></span>
+                </div>
+                <ul class="lib-census-legend">
+                    <li class="is-16" title="CD quality, the silent majority"><strong class="lib-tag"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5"/><circle cx="8" cy="8" r="1.8"/></svg>16-bit</strong> <span>233</span></li>
+                    <li class="is-24" title="The hi-res elite, mostly Bandcamp"><strong class="lib-tag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.6 4.9 4.9 1.6-4.9 1.6L8 14.5l-1.6-4.9L1.5 8l4.9-1.6z"/></svg>24-bit</strong> <span>11</span></li>
+                    <li class="is-aac" title="No bit depth, ~268 kbps, iTunes era"><strong class="lib-tag"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2l4 4M6 2.5V6H2.5M14 14l-4-4M10 13.5V10h3.5"/></svg>AAC</strong> <span>82</span></li>
+                </ul>
+                <div class="lib-fact">
+                    <div class="lib-fact-label">
+                        <p>Fun fact <span data-fact-n>1 / 10</span></p>
+                        <button type="button" class="lib-fact-next" data-fact-next>Another one</button>
+                    </div>
+                    <ul class="lib-facts" aria-live="polite">
+                        <li>Oldest track: "My Way" by Frank Sinatra, 1964. Grandpa-approved.</li>
+                        <li hidden>Shortest track: "Eva's Ringtone" from To the Moon. 5 seconds. Still hurts.</li>
+                        <li hidden>Longest track: "33x" by Perunggu, 7 min 12 s. Worth every second.</li>
+                        <li hidden>Two tracks are 96 kHz hi-res: "Bee Moved" and "Gravits". My earphones can't tell.</li>
+                        <li hidden>Top artist: Simon Viklund, 51 tracks of PAYDAY 2 heist music. Works for deploys too.</li>
+                        <li hidden>100 synced <code>.lrc</code> lyric files. Still sing the words wrong.</li>
+                        <li hidden>"Tank!" from Cowboy Bebop (1998) is the second-oldest track. Still goes the hardest.</li>
+                        <li hidden>75% lossless. The other 25% is iTunes AAC, and that's fine.</li>
+                        <li hidden>Only 11 tracks are 24-bit. Eight of them came from Bandcamp, which explains the wallet.</li>
+                        <li hidden>Playing everything back to back takes 18.5 hours. One long flight, or one long deploy freeze.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-ytm" data-category="hobby" data-desc="3,330 plays, logged by Google" data-title="~/yt-music.log" data-icon="img/icon-ytmusic.svg">
+            <div class="window-body">
+                <h2 class="section-title">// YouTube Music <small>what Google logged, Dec 2025 to Oct 2026</small></h2>
+                <ul class="lib-chips">
+                    <li><strong>3,330</strong> plays logged</li>
+                    <li><strong>1,724</strong> tracks</li>
+                    <li><strong>1,070</strong> artists</li>
+                    <li title="Days with any history between Dec 15, 2025 and Oct 11, 2026"><strong>104</strong> days logged</li>
+                    <li><strong>15</strong>-day streak</li>
+                </ul>
+                <div class="ytm-spot" data-ytm-spot style="--c: #3b479b">
+                    <span class="ytm-backdrop" aria-hidden="true" style="background-image: url('img/ytm/vqdSVnmn_v8.webp')" data-spot-backdrop></span>
+                    <div class="ytm-sleeve" data-spot-sleeve>
+                        <span class="ytm-disc" aria-hidden="true"></span>
+                        <img class="ytm-cover" src="img/ytm/vqdSVnmn_v8.webp" width="200" height="200" alt="" data-spot-img>
+                        <span class="ytm-cover-blank" aria-hidden="true">&#9835;</span>
+                    </div>
+                    <div class="ytm-info" aria-live="polite">
+                        <p class="ytm-kicker"><span class="ytm-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-spot-kicker>#1 track</span></p>
+                        <h3 class="ytm-title" data-spot-name>Break It Down</h3>
+                        <p class="ytm-by" data-spot-by>by Vestia Zeta</p>
+                        <dl class="ytm-stats">
+                            <div><dt>plays</dt><dd data-spot-plays>31</dd></div>
+                            <div><dt>share</dt><dd data-spot-share>0.9%</dd></div>
+                            <div><dt>first logged</dt><dd data-spot-first>Apr 8, 2026</dd></div>
+                            <div><dt>peak hour</dt><dd data-spot-hour>5 PM</dd></div>
+                            <div><dt>fave day</dt><dd data-spot-wd>Wednesday</dd></div>
+                        </dl>
+                        <div class="ytm-actions">
+                            <a class="ytm-play" href="https://music.youtube.com/watch?v=vqdSVnmn_v8" target="_blank" rel="noopener" data-spot-link><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M7 4.5v15l12-7.5z"/></svg>play on YT Music</a>
+                            <button type="button" class="ytm-shuffle" data-spot-shuffle><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M3 7h3.5c2.5 0 3.8 1.2 5.5 5s3 5 5.5 5H21M3 17h3.5c1.4 0 2.4-.4 3.3-1.3M14.2 8.3c.9-.9 1.9-1.3 3.3-1.3H21M18 4l3 3-3 3M18 14l3 3-3 3"/></svg><span data-spot-mode>shuffle top 10</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ytm-grid">
+                    <div>
+                        <h3 class="lib-h">Top artists</h3>
+                        <ol class="ytm-rank" style="--max: 161" data-kind="artist">
+                        <li><button type="button" class="ytm-row" style="--n: 161; --c: #c47e64" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-hindia.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Hindia</span><span class="ytm-n">161</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 104; --c: #6480c4" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-crayon-case.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Crayon Case</span><span class="ytm-n">104</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 70; --c: #e50015" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-jkt48.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">JKT48</span><span class="ytm-n">70</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 70; --c: #c49764" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-feast.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Feast</span><span class="ytm-n">70</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 60; --c: #3b6e9b" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-bernadya.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Bernadya</span><span class="ytm-n">60</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 57; --c: #7f8c8d" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-white-chorus.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">White Chorus</span><span class="ytm-n">57</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 54; --c: #be195b" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-yori.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">YoRI</span><span class="ytm-n">54</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 53; --c: #9b9a3b" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-normatif.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Normatif</span><span class="ytm-n">53</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 53; --c: #7f8c8d" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-linkin-park.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Linkin Park</span><span class="ytm-n">53</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 52; --c: #1656c0" aria-pressed="false"><img class="ytm-face" src="img/ytm/artist-kobo-kanaeru.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Kobo Kanaeru</span><span class="ytm-n">52</span></button></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3 class="lib-h">Top tracks</h3>
+                        <ol class="ytm-rank" style="--max: 31" data-kind="track">
+                        <li><button type="button" class="ytm-row" style="--n: 31; --c: #3b479b" aria-pressed="true" data-id="vqdSVnmn_v8" data-first="Apr 8, 2026" data-hour="5 PM" data-wd="Wednesday" data-by="Vestia Zeta"><img src="img/ytm/vqdSVnmn_v8.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Break It Down <small>Vestia Zeta</small></span><span class="ytm-n">31</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 27; --c: #d30a0b" aria-pressed="false" data-id="DU4COqzSDdk" data-first="May 26, 2026" data-hour="4 PM" data-wd="Wednesday" data-by="Fish Tank Radio"><img src="img/ytm/DU4COqzSDdk.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Korek Api <small>Fish Tank Radio</small></span><span class="ytm-n">27</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 27; --c: #9b9a3b" aria-pressed="false" data-id="ANm1NNDp598" data-first="Apr 22, 2026" data-hour="5 PM" data-wd="Saturday" data-by="Normatif"><img src="img/ytm/ANm1NNDp598.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Ijazah di Lemari Berdebu <small>Normatif</small></span><span class="ytm-n">27</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 27; --c: #7f8c8d" aria-pressed="false" data-id="7Sz0pnTnj9g" data-first="Apr 6, 2026" data-hour="5 PM" data-wd="Friday" data-by="White Chorus"><img src="img/ytm/7Sz0pnTnj9g.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Minggu <small>White Chorus</small></span><span class="ytm-n">27</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 27; --c: #d52c11" aria-pressed="false" data-id="pMbqbGHNHKc" data-first="May 13, 2026" data-hour="4 PM" data-wd="Monday" data-by="NDGJ"><img src="img/ytm/pMbqbGHNHKc.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">MANUSIA <small>NDGJ</small></span><span class="ytm-n">27</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 26; --c: #e0559b" aria-pressed="false" data-first="Jan 9, 2026" data-hour="5 PM" data-wd="Wednesday" data-by="KangKung Radio"><span class="ytm-thumb" aria-hidden="true">&#9835;</span><span class="ytm-name">Kessoku Band - Pak Vramroro <small>KangKung Radio</small></span><span class="ytm-n">26</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 22; --c: #6480c4" aria-pressed="false" data-id="RXcUVOeqdjk" data-first="Jun 5, 2026" data-hour="5 PM" data-wd="Thursday" data-by="Crayon Case"><img src="img/ytm/RXcUVOeqdjk.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">because, <small>Crayon Case</small></span><span class="ytm-n">22</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 20; --c: #6489c4" aria-pressed="false" data-id="_OTFjdOMJUo" data-first="Jun 8, 2026" data-hour="5 PM" data-wd="Monday" data-by="Crayon Case"><img src="img/ytm/_OTFjdOMJUo.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Gravits <small>Crayon Case</small></span><span class="ytm-n">20</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 20; --c: #6498c4" aria-pressed="false" data-id="m9K4u9r1cCw" data-first="Apr 3, 2026" data-hour="4 PM" data-wd="Wednesday" data-by="Crayon Case"><img src="img/ytm/m9K4u9r1cCw.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Surabaya <small>Crayon Case</small></span><span class="ytm-n">20</span></button></li>
+                        <li><button type="button" class="ytm-row" style="--n: 19; --c: #648cc4" aria-pressed="false" data-id="lqHSxxZ0wJQ" data-first="Jun 15, 2026" data-hour="4 PM" data-wd="Friday" data-by="Crayon Case"><img src="img/ytm/lqHSxxZ0wJQ.webp" width="28" height="28" alt="" loading="lazy"><span class="ytm-name">Neu Automobile <small>Crayon Case</small></span><span class="ytm-n">19</span></button></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3 class="lib-h">Plays by hour</h3>
+                        <ol class="ytm-hours" role="img" aria-label="Plays by hour of day. Peak at 5 PM with 801 plays, quietest at 5 AM with 18.">
+                        <li data-who="Bernadya" data-who-n="4" style="--n: 49" data-tip="12 AM · 49 plays"></li>
+                        <li data-who="Wali" data-who-n="3" style="--n: 46" data-tip="1 AM · 46 plays"></li>
+                        <li data-who="Hindia" data-who-n="4" style="--n: 48" data-tip="2 AM · 48 plays"></li>
+                        <li data-who="Wali" data-who-n="3" style="--n: 27" data-tip="3 AM · 27 plays"></li>
+                        <li data-who="Radwimps" data-who-n="5" style="--n: 57" data-tip="4 AM · 57 plays"></li>
+                        <li data-who="Hindia" data-who-n="3" style="--n: 18" data-tip="5 AM · 18 plays. even the algorithm sleeps"></li>
+                        <li data-who="Hindia" data-who-n="12" style="--n: 84" data-tip="6 AM · 84 plays"></li>
+                        <li data-who="Hindia" data-who-n="4" style="--n: 80" data-tip="7 AM · 80 plays"></li>
+                        <li data-who="Creepy Nuts" data-who-n="4" style="--n: 54" data-tip="8 AM · 54 plays"></li>
+                        <li data-who="Crayon Case" data-who-n="9" style="--n: 144" data-tip="9 AM · 144 plays"></li>
+                        <li data-who="Crayon Case" data-who-n="9" style="--n: 172" data-tip="10 AM · 172 plays"></li>
+                        <li data-who="Hindia" data-who-n="14" style="--n: 163" data-tip="11 AM · 163 plays"></li>
+                        <li data-who="Hindia" data-who-n="6" style="--n: 52" data-tip="12 PM · 52 plays. lunch break"></li>
+                        <li data-who="Hindia" data-who-n="12" style="--n: 221" data-tip="1 PM · 221 plays"></li>
+                        <li data-who="Linkin Park" data-who-n="24" style="--n: 169" data-tip="2 PM · 169 plays"></li>
+                        <li data-who="Hindia" data-who-n="17" style="--n: 221" data-tip="3 PM · 221 plays"></li>
+                        <li data-who="Crayon Case" data-who-n="15" style="--n: 259" data-tip="4 PM · 259 plays"></li>
+                        <li data-who="Hindia" data-who-n="27" class="is-peak" style="--n: 801" data-tip="5 PM · 801 plays. the golden hour"></li>
+                        <li data-who="FSTVLST" data-who-n="9" style="--n: 175" data-tip="6 PM · 175 plays"></li>
+                        <li data-who="Creepy Nuts" data-who-n="4" style="--n: 61" data-tip="7 PM · 61 plays"></li>
+                        <li data-who="Bernadya" data-who-n="3" style="--n: 80" data-tip="8 PM · 80 plays"></li>
+                        <li data-who="Hindia" data-who-n="9" style="--n: 156" data-tip="9 PM · 156 plays"></li>
+                        <li data-who="Feast" data-who-n="3" style="--n: 98" data-tip="10 PM · 98 plays"></li>
+                        <li data-who="Wali" data-who-n="6" style="--n: 95" data-tip="11 PM · 95 plays"></li>
+                        </ol>
+                        <p class="ytm-axis" aria-hidden="true"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></p>
+                        <p class="ytm-note" data-ytm-note aria-live="polite"><strong>5 PM</strong> holds 24% of all plays. the golden hour. tap a bar to see who owned it.</p>
+                    </div>
+                </div>
+                <div class="lib-fact">
+                    <div class="lib-fact-label">
+                        <p>Fun fact <span data-fact-n>1 / 9</span></p>
+                        <button type="button" class="lib-fact-next" data-fact-next>Another one</button>
+                    </div>
+                    <ul class="lib-facts" aria-live="polite">
+                        <li>First logged play: "Kamen Rider Kuuga!" by Masayuki Tanaka, Dec 15, 2025. Henshin from day one.</li>
+                        <li hidden>#1 track is "Break It Down" by Vestia Zeta, 31 plays. The mouse is her edition too. Consistent.</li>
+                        <li hidden>"Korek Api" by Fish Tank Radio: 27 plays here, and it's track 1 in ~/my-bandcamp.</li>
+                        <li hidden>Crayon Case's "Gravits" got 36 plays across two versions. Also in the Bandcamp collection. Paid twice, worth it.</li>
+                        <li hidden>1,224 of 1,724 tracks were played exactly once. Shuffle is doing its job.</li>
+                        <li hidden>Busiest day: Sep 6, 2026, with 160 plays. Bernadya led with 7.</li>
+                        <li hidden>Sep 21 logged 85 plays inside one 5 PM hour. That's not listening, that's skipping.</li>
+                        <li hidden>227 plays between midnight and 5 AM. The night shift has a soundtrack.</li>
+                        <li hidden>Top artist Hindia is only 4.8% of plays. 1,070 artists, no favorites. Mostly.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-steam" data-category="hobby" data-desc="952 hours in one game, and counting" data-title="~/steam" data-icon="img/icon-gamepad.svg">
+            <div class="window-body steam">
+                <div class="steam-head">
+                    <img class="steam-avatar" src="img/hobby/steam-avatar.jpg" alt="" loading="lazy">
+                    <div class="steam-who">
+                        <h2 class="steam-name">decade</h2>
+                        <p class="steam-sub">Indonesia · on Steam since Apr 2016</p>
+                        <p class="steam-bio">Warships and Tanks Lover. <i lang="fr">Attendre et espérer.</i></p>
+                    </div>
+                    <div class="steam-level" aria-label="Steam level 64"><span>Level</span><strong>64</strong></div>
+                    <a class="steam-btn" href="https://steamcommunity.com/id/tamaitoh/" target="_blank" rel="noopener">View profile &#8599;</a>
+                </div>
+                <ul class="steam-stats">
+                    <li><strong>168</strong> games owned</li>
+                    <li><strong>3,843</strong> hours played</li>
+                    <li><strong>160</strong> days, if you do the math</li>
+                    <li><strong>41</strong> badges</li>
+                </ul>
+                <h3 class="steam-h">Recently played</h3>
+                <ul class="steam-recent">
+                    <li>
+                        <img src="img/hobby/steam-cyberpunk.jpg" alt="" loading="lazy">
+                        <p class="steam-game-name">Cyberpunk 2077</p>
+                        <p class="steam-game-note">137 h · last played Oct 7</p>
+                    </li>
+                    <li>
+                        <img src="img/hobby/steam-p3r.jpg" alt="" loading="lazy">
+                        <p class="steam-game-name">Persona 3 Reload</p>
+                        <p class="steam-game-note">just started · last played Oct 3</p>
+                    </li>
+                    <li>
+                        <img src="img/hobby/steam-cs2.jpg" alt="" loading="lazy">
+                        <p class="steam-game-name">Counter-Strike 2</p>
+                        <p class="steam-game-note">952 h · last played Oct 1</p>
+                    </li>
+                    <li>
+                        <img src="img/hobby/steam-mhw.jpg" alt="" loading="lazy">
+                        <p class="steam-game-name">Monster Hunter: World</p>
+                        <p class="steam-game-note">48 h · last played Sep 13</p>
+                    </li>
+                </ul>
+                <h3 class="steam-h">Most played</h3>
+                <ol class="steam-games">
+                    <li class="steam-game" data-ach="1/1">
+                        <img src="img/hobby/steam-cs2.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Counter-Strike 2</p>
+                            <p class="steam-game-note">Reviewed it at 423 h: recommended. Then kept going.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">952 h</span>
+                    </li>
+                    <li class="steam-game">
+                        <img src="img/hobby/steam-dota2.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Dota 2</p>
+                            <p class="steam-game-note">455 hours in, still reading item tooltips mid-fight.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">455 h</span>
+                    </li>
+                    <li class="steam-game">
+                        <img src="img/hobby/steam-action.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Action! <span class="steam-tag">not a game</span></p>
+                            <p class="steam-game-note">A screen recorder. Somehow in the top three.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">247 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="12/12">
+                        <img src="img/hobby/steam-apex.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Apex Legends</p>
+                            <p class="steam-game-note">Drop, loot, get third-partied. Repeat.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">147 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="30/57">
+                        <img src="img/hobby/steam-cyberpunk.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Cyberpunk 2077</p>
+                            <p class="steam-game-note">Has "City Lights", an achievement only 8.8% of players got.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">137 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="26/75">
+                        <img src="img/hobby/steam-skyrim.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">The Elder Scrolls V: Skyrim</p>
+                            <p class="steam-game-note">Main quest? Never heard of it.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">102 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="458/1342">
+                        <img src="img/hobby/steam-payday2.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">PAYDAY 2</p>
+                            <p class="steam-game-note">Came for the heists, stayed for the soundtrack.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">73 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="8/43">
+                        <img src="img/hobby/steam-wows.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">World of Warships</p>
+                            <p class="steam-game-note">The "Warships Lover" in my bio, verified.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">61 h</span>
+                    </li>
+                    <li class="steam-game" data-ach-note="Achievements not public, sadly">
+                        <img src="img/hobby/steam-l4d2.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Left 4 Dead 2</p>
+                            <p class="steam-game-note">Survived. Mostly.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">58 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="48/100">
+                        <img src="img/hobby/steam-mhw.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Monster Hunter: World</p>
+                            <p class="steam-game-note">Same monster, 40th time, for one gem.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">48 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="6/49">
+                        <img src="img/hobby/steam-stardew.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">Stardew Valley</p>
+                            <p class="steam-game-note">The cozy one. The farm still needs work.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">42 h</span>
+                    </li>
+                    <li class="steam-game" data-ach="9/51">
+                        <img src="img/hobby/steam-ftl.jpg" alt="" loading="lazy">
+                        <div class="steam-game-info">
+                            <p class="steam-game-name">FTL: Faster Than Light</p>
+                            <p class="steam-game-note">Lost the crew to a fire. Every single run.</p>
+                            <span class="steam-bar"><span></span></span>
+                        </div>
+                        <span class="steam-hrs">38 h</span>
+                    </li>
+                </ol>
+                <p class="steam-foot">Hours pulled from my Steam client, Oct 2026. Not pictured: the game I left running overnight.</p>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-tracks" data-category="hobby" data-desc="Every track on my disk, searchable" data-title="~/Music/" data-icon="img/icon-playlist.svg">
+            <div class="window-body">
+                <div class="ml-top">
+                    <div>
+                        <h2 class="section-title">// ~/Music</h2>
+                        <p class="skill-subtitle">every track on my disk, synced with Syncthing</p>
+                    </div>
+                    <button type="button" class="np-btn ml-shuffle" data-ml-shuffle>
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4.5h2.5c3 0 4 7 7 7H14M2 11.5h2.5c1.2 0 2-1 2.7-2.3M9.3 6.8c.7-1.3 1.5-2.3 2.7-2.3H14M12 2.5l2 2-2 2M12 9.5l2 2-2 2"/></svg>
+                        <span>Surprise me</span>
+                    </button>
+                </div>
+                <div class="ml-case" data-ml-case hidden></div>
+                <div class="ml-tools">
+                    <label class="ml-search">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg>
+                        <input type="search" data-ml-search placeholder="Search 326 tracks, artists, albums" aria-label="Search the library">
+                    </label>
+                    <div class="ml-sources" data-ml-sources role="group" aria-label="Filter by source"></div>
+                    <select class="ml-sort" data-ml-sort aria-label="Sort albums">
+                        <option value="artist">Artist A-Z</option>
+                        <option value="new">Newest first</option>
+                        <option value="old">Oldest first</option>
+                        <option value="size">Most tracks</option>
+                    </select>
+                </div>
+                <p class="ml-status" data-ml-status aria-live="polite"></p>
+                <div class="ml-browser">
+                    <ul class="ml-albums" data-ml-albums aria-label="Albums"></ul>
+                    <div class="ml-detail" data-ml-detail></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="window window-full" id="win-rig" data-category="hobby" data-desc="The machine behind the 952 hours" data-title="~/rig.conf" data-icon="img/icon-chip.svg">
+            <div class="window-body">
+                <div class="rig-panel">
+                    <div class="rig-laptop-head">
+                        <p class="rig-s">[laptop]</p>
+                        <svg class="rig-laptop-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20M10 8.5l-2 2 2 2M14 8.5l2 2-2 2"/></svg>
+                        <h3 id="rig-laptop-title"><svg class="ub-mark is-lenovo" viewBox="0 7.997 24 8.006" width="60" height="20" role="img" aria-label="Lenovo"><path d="M21.044 12.288c0 .5-.343.867-.815.867-.464 0-.827-.38-.827-.867 0-.51.343-.868.815-.868.464 0 .827.381.827.868zm-14.305-.92a.787.787 0 0 0-.651.307.991.991 0 0 0-.172.738l1.479-.614a.708.708 0 0 0-.656-.43zm6.963.052c-.472 0-.816.358-.816.868 0 .486.364.867.828.867.472 0 .815-.368.815-.867 0-.487-.363-.868-.827-.868zM24 7.997v8.006H0V7.997h24zM5.01 13.05H3.088V9.825H2.23v4.003h2.78v-.777zm1.137-.094l2.163-.897a1.667 1.667 0 0 0-.37-.86c-.284-.33-.704-.505-1.216-.505-.931 0-1.633.686-1.633 1.593 0 .93.704 1.593 1.726 1.593.572 0 1.158-.272 1.432-.589l-.535-.411c-.357.264-.56.326-.885.326-.292 0-.52-.09-.682-.25zm5.57-1.039c0-.709-.507-1.223-1.252-1.223a1.28 1.28 0 0 0-1.005.494v-.442h-.846v3.081h.846v-1.753c0-.316.245-.651.698-.651.35 0 .712.243.712.651v1.753h.847v-1.91zm3.647.37c0-.904-.725-1.593-1.65-1.593-.933 0-1.663.7-1.663 1.593 0 .903.726 1.592 1.651 1.592.932 0 1.662-.7 1.662-1.592zm2.066 1.54l1.268-3.081h-.967l-.765 2.099-.765-2.1h-.966l1.268 3.081h.927zm4.449-1.54c0-.904-.725-1.593-1.65-1.593-.932 0-1.662.7-1.662 1.593 0 .903.725 1.592 1.65 1.592.932 0 1.662-.7 1.662-1.592z"/></svg> IdeaPad Gaming 3 <span>15ARH05</span></h3>
+                    </div>
+                    <div class="ub-legend" aria-hidden="true">
+                        <span>UserBenchmark average bench</span>
+                        <span><i class="ub-key-range"></i>poor to great</span>
+                    </div>
+                    <ol class="ub-list">
+                        <li class="ub-row">
+                            <span class="ub-kind" style="--c: #ed1c24"><svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><rect x="10" y="10" width="4" height="4"/><path d="M10 4.5V7M14 4.5V7M10 17v2.5M14 17v2.5M4.5 10H7M4.5 14H7M17 10h2.5M17 14h2.5"/></svg>CPU</span>
+                            <span class="ub-part"><a href="https://cpu.userbenchmark.com/SpeedTest/1110331/AMD-Ryzen-5-4600H-with-Radeon-Graphics" target="_blank" rel="noopener"><svg class="ub-mark is-amd" viewBox="389.9 0 122.1 122.2" width="13" height="13" aria-hidden="true"><path d="M424.126 39.943v47.931h47.931l-34.226 34.263H389.9V74.169zM512 0v121.11l-33.273-33.273V33.273h-54.564L390.926 0z"/></svg>AMD Ryzen 5 4600H</a><small>6C/12T · 3.0-4.0 GHz · 8 MB L3</small></span>
+                            <span class="ub-bar" aria-hidden="true"><i class="ub-range" style="left: 47.0%; width: 40.0%"></i><i class="ub-fill" style="width: 70.1%"></i></span>
+                            <span class="ub-score"><strong>70.1%</strong><span class="ub-rank">455th / 1,427</span></span>
+                            <span class="ub-samples">27,218 samples</span>
+                        </li>
+                        <li class="ub-row">
+                            <span class="ub-kind" style="--c: #76b900"><svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="12" rx="2"/><circle cx="9" cy="11" r="3"/><path d="M15 9h3M15 13h3M6 17v2.5h7V17"/></svg>GPU</span>
+                            <span class="ub-part"><a href="https://gpu.userbenchmark.com/SpeedTest/1091296/NVIDIA-GeForce-GTX-1650-Ti" target="_blank" rel="noopener"><svg class="ub-mark is-nvidia" viewBox="0 4 24 16" width="21" height="14" role="img" aria-label="NVIDIA"><path d="M8.948 8.798v-1.43a6.7 6.7 0 0 1 .424-.018c3.922-.124 6.493 3.374 6.493 3.374s-2.774 3.851-5.75 3.851c-.398 0-.787-.062-1.158-.185v-4.346c1.528.185 1.837.857 2.747 2.385l2.04-1.714s-1.492-1.952-4-1.952a6.016 6.016 0 0 0-.796.035m0-4.735v2.138l.424-.027c5.45-.185 9.01 4.47 9.01 4.47s-4.08 4.964-8.33 4.964c-.37 0-.733-.035-1.095-.097v1.325c.3.035.61.062.91.062 3.957 0 6.82-2.023 9.593-4.408.459.371 2.34 1.263 2.73 1.652-2.633 2.208-8.772 3.984-12.253 3.984-.335 0-.653-.018-.971-.053v1.864H24V4.063zm0 10.326v1.131c-3.657-.654-4.673-4.46-4.673-4.46s1.758-1.944 4.673-2.262v1.237H8.94c-1.528-.186-2.73 1.245-2.73 1.245s.68 2.412 2.739 3.11M2.456 10.9s2.164-3.197 6.5-3.533V6.201C4.153 6.59 0 10.653 0 10.653s2.35 6.802 8.948 7.42v-1.237c-4.84-.6-6.492-5.936-6.492-5.936z"/></svg>GeForce GTX 1650 Ti (Mobile)</a><small>4GB GDDR6 · Turing TU117</small></span>
+                            <span class="ub-bar" aria-hidden="true"><i class="ub-range" style="left: 14.0%; width: 6.0%"></i><i class="ub-fill" style="width: 17.9%"></i></span>
+                            <span class="ub-score"><strong>17.9%</strong><span class="ub-rank">153rd / 453</span></span>
+                            <span class="ub-samples">65,869 samples</span>
+                        </li>
+                        <li class="ub-row">
+                            <span class="ub-kind" style="--c: #b388ff"><svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="10" rx="1.5"/><path d="M6 9.5v3M10 9.5v3M14 9.5v3M18 9.5v3M5 16v2.5M9 16v2.5M15 16v2.5M19 16v2.5"/></svg>RAM</span>
+                            <span class="ub-part"><a href="https://www.userbenchmark.com/System/Lenovo-81Y4/187772" target="_blank" rel="noopener"><svg class="ub-mark is-kingston" viewBox="3 0 18 24" width="11.2" height="15" aria-hidden="true"><path d="M14.123.0007c-.5442-.0038-1.0301.008-1.4389.0204C7.185.1697 4.2115 1.7057 4.2115 1.7057s-.2967.1988-.148.8428c0 0 .0993.7921.1983 1.139l.0494.0996c-.099.099-.4958.2973-.6445.4954-.3468.446-.0493 2.4772-.0493 2.4772.3468 2.1303.6938 2.5265.6938 2.5265s.4956.6436 1.1892 1.0895c.2973.1486.2477.4954.2477.4954L3.3203 24h16.3492l-3.4187-7.4808c.6936 0 2.1306.3464 2.9232-1.883.7432-2.1303 1.1397-5.3502 1.1893-6.2915.099-.9414-.0999-2.9233-.0503-3.4187 0-.1486.3473-.6442.3473-.9415.0496-.4459-.0006-.8418-.0996-1.585-.0496-.2972-.0983-.644-.1974-.9908-.0496-.2478-.0999-.3964-.298-.4955C17.91.1701 15.7555.0124 14.123.0007Zm-1.4389.4171c.545 0 5.1027-.0492 7.233.8922.1983.1486.0498.8915-.0493 1.2879-.0495.2972-.3967.3967-.3967.3967-.3468.099-.446.3464-.446.3464s.4458 4.3102.4954 4.4589c.0495.1981-.1485.1981-.5448.2477-.1982 0-2.4772.0493-2.4772.0493s-.4956-.0491-.446-.3464c0-.1981.0992-.595.1983-.595h.4461s.991.0497.6938-.0494l-1.0402-.2477s-.2483.0004-.3474.149c-.0495.1486-.297.9415-.297.9415s-.0002.0491.0493.0987c.0495.0495 2.5768 1.883 2.5768 1.883s-2.1311-.199-2.7752-.0503c-.644.1486-1.9813.8422-2.8235.9908-.8422.1487-3.9636.4955-4.1618.4955l-1.2386-5.35s-.1484-1.3375-1.5356-1.288c-1.0404.0495-1.189.2967-1.2386.3958-.099.1981 0 .3967 0 .3967l3.3693 5.7468s-2.2792-1.0896-3.171-2.3282c-.4954-.644-.9416-3.8645-.6444-4.4095.2973-.4954 2.1306-.8915 2.9233-.7925.3963.0496.7433.4452.9415.6929.0495.099.0985.0501.148.0996 0 0-.1982-1.2383-.9909-1.2879-1.1394-.099-2.3774.3464-2.3774.3464s-.0995-.0004-.149-.149c-.0496-.1982-.1984-1.2386-.1984-1.2386s.0495-.198.2477-.297c0 0 3.2209-1.4863 8.0265-1.4863zm.6435 1.4273c-.0704.003-.0987.0096-.0987.0096-2.0808.8423-3.765 2.675-3.765 2.5759.1981.0495.594 0 .594 0 1.8332-1.5854 3.4187-2.2295 3.4187-2.2295 1.3377 0 3.6165.7927 3.765.7432.0496 0 .0498-.2475-.0493-.297-.2477-.0496-.7433-.2973-1.6846-.4955-1.3748-.2973-1.9688-.316-2.1801-.3067Zm6.788 1.3972c.1981.0496.198.049.297.148.1486.0992.0991.3966 0 .4461-.099.0991-.1484-.0988-.7925-.0493 0 0 .2973-.5943.4955-.5448zm-4.8711.1016c-.3623-.0186-.8641.0469-1.4215.1955-.7431.1982-2.2294.9415-2.2294.9415.5945.2477 1.5861.3468 2.5275.4954 1.0404.0991 2.179-.446 2.179-.446-.0495-.1487-.3963-1.0408-.743-1.14-.0868-.0247-.1919-.0402-.3126-.0464zm.7867 7.4015c.7242.0174 1.5759.1012 2.449.3241 0 0 .4957.3964.4461.7432 0 0-3.567.198-4.9543-.9416 0 0 .852-.1548 2.0592-.1257zm-9.7383.176 1.5356 1.0403 2.5265 11.5429H3.9145Zm11.8032 1.4554a8.479 8.479 0 0 1 .7315.031s.2973.2475-.4954 1.0401c-.9909.9414-2.7256 1.6843-4.2615 1.288 0 0 .5664-2.351 4.0254-2.3591zm-8.0875 4.1918s3.1216 1.9323 3.617 2.6755l.3464 4.3108h-2.2787Zm5.3007 3.9634s1.8335 1.6852 2.3785 3.0229h-3.0713z"/></svg>Kingston 16GB (2x8GB) DDR4-3200</a><small>LV32D4S2S8HD-8 · CL22 · dual channel</small></span>
+                            <span class="ub-bar" aria-hidden="true"><i class="ub-fill" style="width: 91%"></i></span>
+                            <span class="ub-score"><strong>91%</strong><span class="ub-rank is-none">no rank listed</span></span>
+                            <span class="ub-samples">10,928 samples<br>1 stick: 48%</span>
+                        </li>
+                        <li class="ub-row">
+                            <span class="ub-kind" style="--c: #3daee9"><svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="8" width="20" height="8" rx="1.5"/><path d="M6 11h3v2H6zM11 11h3v2h-3z"/><circle cx="19" cy="12" r="1"/></svg>SSD</span>
+                            <span class="ub-part"><a href="https://www.userbenchmark.com/System/Lenovo-82H9/239519" target="_blank" rel="noopener"><svg class="ub-mark is-micron" viewBox="0 0 256 135" width="19" height="10" aria-hidden="true"><path d="M0 109.252h39.346c11.812 0 17.235-4.666 17.235-17.992V63.348C56.58 21.733 76.085 0 113.37 0c19.505 0 34.302 6.936 43.087 20.261C165.622 6.936 179.704 0 199.21 0C236.495 0 256 21.733 256 63.348v71.21h-27.744v-71.21c0-25.684-10.299-38.042-29.047-38.042s-29.047 12.358-29.047 38.042v71.21h-27.744v-71.210c0-25.684-10.298-38.042-29.047-38.042c-18.748 0-29.047 12.358-29.047 38.042V91.26c0 31.107-15.006 43.298-44.978 43.298H0z"/></svg>Micron 2210 512GB</a><small>NVMe PCIe 3.0 x4 · QLC</small></span>
+                            <span class="ub-bar" aria-hidden="true"><i class="ub-fill" style="width: 44.3%"></i></span>
+                            <span class="ub-score"><strong>155%</strong><span class="ub-rank is-none">no rank listed</span></span>
+                            <span class="ub-samples">3,572 samples</span>
+                        </li>
+                        <li class="ub-row is-approx">
+                            <span class="ub-kind" style="--c: #1abc9c"><svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 10h6M9 17h6"/><circle cx="12" cy="13.5" r="0.6"/></svg>SSD</span>
+                            <span class="ub-part"><a href="https://ssd.userbenchmark.com/SpeedTest/666214/CT960BX500SSD1" target="_blank" rel="noopener"><svg class="ub-mark is-micron" viewBox="0 0 256 135" width="19" height="10" aria-hidden="true"><path d="M0 109.252h39.346c11.812 0 17.235-4.666 17.235-17.992V63.348C56.58 21.733 76.085 0 113.37 0c19.505 0 34.302 6.936 43.087 20.261C165.622 6.936 179.704 0 199.21 0C236.495 0 256 21.733 256 63.348v71.21h-27.744v-71.21c0-25.684-10.299-38.042-29.047-38.042s-29.047 12.358-29.047 38.042v71.21h-27.744v-71.210c0-25.684-10.298-38.042-29.047-38.042c-18.748 0-29.047 12.358-29.047 38.042V91.26c0 31.107-15.006 43.298-44.978 43.298H0z"/></svg>Crucial BX500 1TB</a><small>SATA 6 Gb/s · 2.5"</small></span>
+                            <span class="ub-bar" aria-hidden="true"><i class="ub-range" style="left: 9.7%; width: 14.6%"></i><i class="ub-fill" style="width: 19.3%"></i></span>
+                            <span class="ub-score"><strong>67.5%</strong><span class="ub-rank">719th / 1,095</span></span>
+                            <span class="ub-samples">19,670 samples<br>via the 960GB page</span>
+                        </li>
+                        <li class="ub-row ub-os">
+                            <span class="ub-kind" style="--c: #f39c12"><svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4M7 8l2.5 2L7 12M11 12h4"/></svg>OS</span>
+                            <div class="ub-os-grid">
+                                <div class="ub-os-col">
+                                    <span class="ub-part"><a href="https://gs.statcounter.com/os-market-share/desktop/worldwide" target="_blank" rel="noopener"><svg class="ub-mark is-bazzite" viewBox="50 50 500 500" width="15" height="15" aria-hidden="true"><defs><linearGradient id="bazzite-grad" x1="50" y1="50" x2="550" y2="550" gradientUnits="userSpaceOnUse"><stop offset="0.07" stop-color="#0047ab"/><stop offset="0.74" stop-color="#8a2be2"/></linearGradient></defs><path fill="url(#bazzite-grad)" d="M50 150C50 94.77 94.77 50 150 50h150c138.07 0 250 111.93 250 250s-111.93 250-250 250S50 438.07 50 300Z"/><path fill="#fff" fill-opacity=".5" fill-rule="evenodd" d="M178 50h64v128h134.185C432.416 178 478 223.584 478 279.815 478 389.269 389.27 478 279.815 478 223.584 478 178 432.416 178 376.185V242H50v-64h128zm64 192v134.185C242 397.07 258.93 414 279.815 414 353.923 414 414 353.923 414 279.815 414 258.93 397.07 242 376.185 242Z"/><path fill="#fff" fill-opacity=".7" d="M242 110c0-16.57-13.43-30-30-30h-4c-16.57 0-30 13.43-30 30v68h-68c-16.57 0-30 13.43-30 30v4c0 16.57 13.43 30 30 30h68v68c0 16.57 13.43 30 30 30h4c16.57 0 30-13.43 30-30v-68h68c16.57 0 30-13.43 30-30v-4c0-16.57-13.43-30-30-30h-68z"/><path fill="#fff" d="M312.5 205.67c3.333 1.924 3.333 6.736 0 8.66l-21 12.124c-3.333 1.925-7.5-.481-7.5-4.33v-24.248c0-3.849 4.167-6.255 7.5-4.33zM214.33 312.5c-1.924 3.333-6.736 3.333-8.66 0l-12.124-21c-1.925-3.333.481-7.5 4.33-7.5h24.248c3.849 0 6.255 4.167 4.33 7.5zM205.67 107.5c1.924-3.333 6.736-3.333 8.66 0l12.124 21c1.925 3.333-.481 7.5-4.33 7.5h-24.248c-3.849 0-6.255-4.167-4.33-7.5zM107.5 214.33c-3.333-1.924-3.333-6.736 0-8.66l21-12.124c3.333-1.925 7.5.481 7.5 4.33v24.248c0 3.849-4.167 6.255-7.5 4.33z"/></svg>Bazzite</a><small>main · Fedora Atomic, counted as Linux</small></span>
+                                    <span class="ub-bar" aria-hidden="true"><i class="ub-fill" style="width: 4.54%"></i></span>
+                                    <span class="ub-score"><strong>4.54%</strong><span class="ub-rank">Linux, all desktops</span></span>
+                                </div>
+                                <div class="ub-os-col">
+                                    <span class="ub-part"><a href="https://gs.statcounter.com/windows-version-market-share/desktop/worldwide" target="_blank" rel="noopener"><svg class="ub-mark is-windows" viewBox="0 0 128 128" width="14" height="14" aria-hidden="true"><path d="M67.328 67.331h60.669V128H67.328zm-67.325 0h60.669V128H.003zM67.328 0h60.669v60.669H67.328zM.003 0h60.669v60.669H.003z"/></svg>Windows 11</a><small>for some stuff · 54.6% of all desktops</small></span>
+                                    <span class="ub-bar" aria-hidden="true"><i class="ub-fill" style="width: 71.5%"></i></span>
+                                    <span class="ub-score"><strong>71.5%</strong><span class="ub-rank">of Windows PCs</span></span>
+                                </div>
+                            </div>
+                        </li>
+                    </ol>
+                    <p class="rig-c ub-foot"># hardware: UserBenchmark averages from user samples, Oct 2026. No BX500 1TB page exists, so the 960GB sibling stands in. GPUs are scored against desktop flagships, hence the 17.9%. OS: StatCounter worldwide desktop share, Sep 2026.</p>
+                    <section class="rig-sec" aria-label="handheld" style="--c: #1a9fff">
+                        <p class="rig-sec-head"><span class="rig-s">[handheld]</span> <span class="rig-c">1 device · go on, poke the gear</span></p>
+                        <ul class="gear-grid">
+                        <li class="gear is-wide" style="--c: #1a9fff">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="6" width="22" height="12" rx="4"/><rect x="7" y="8.5" width="10" height="7" rx="1"/><circle cx="4" cy="10" r="1"/><circle cx="20" cy="10" r="1"/></svg>
+                            <span class="gear-kind">handheld <span class="gear-tag">modded</span></span>
+                            <span class="gear-name"><svg class="ub-mark is-deck" viewBox="3 0 18 24" width="11" height="15" aria-hidden="true"><path class="deck-arc" d="M8.999 0v4.309c4.242 0 7.694 3.45 7.694 7.691s-3.452 7.691-7.694 7.691V24c6.617 0 12-5.383 12-12s-5.383-12-12-12Z"/><path d="M8.999 6.011c-3.313 0-6 2.687-5.998 6a5.999 5.999 0 1 0 5.998-6z"/></svg><span>Steam Deck LCD 512GB</span></span>
+                            <span class="gear-spec">the 2022 original, not the OLED</span>
+                            <div class="deck-wrap">
+                                <span class="deck-art" aria-hidden="true">
+                                    <span class="deck-grip"><i class="deck-stick"></i><i class="deck-pad"></i></span>
+                                    <span class="gear-screen deck-screen"><b>1280×800</b><i>@ 60 Hz</i></span>
+                                    <span class="deck-grip"><i class="deck-stick"></i><i class="deck-pad"></i></span>
+                                </span>
+                                <dl class="gear-stats">
+                                    <dt>cpu</dt><dd>Zen 2 4C/8T · 2.4–3.5 GHz</dd>
+                                    <dt>gpu</dt><dd>RDNA 2 · 8 CU · 1.0–1.6 GHz</dd>
+                                    <dt>ram</dt><dd>16 GB LPDDR5-5500</dd>
+                                    <dt>ssd</dt><dd>512 GB NVMe · PCIe Gen 3</dd>
+                                    <dt>screen</dt><dd>7" IPS · 16:10 · anti-glare etched</dd>
+                                    <dt>power</dt><dd>40 Wh · 4–15 W APU</dd>
+                                    <dt>os</dt><dd>SteamOS 3 · KDE desktop mode</dd>
+                                    <dt>thermal</dt><dd>Thermalright Heilos V2 · 8.5 W/m·K</dd>
+                                </dl>
+                            </div>
+                            <span class="gear-quip"># stock paste out, phase-change sheet in. no pump-out, no redo next year.</span>
+                        </li>
+                        </ul>
+                    </section>
+                    <section class="rig-sec" aria-label="input" style="--c: #44d62c">
+                        <p class="rig-sec-head"><span class="rig-s">[input]</span> <span class="rig-c">6 devices</span></p>
+                        <ul class="gear-grid">
+                        <li class="gear" style="--c: #44d62c">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 6v4"/></svg>
+                            <span class="gear-kind">mouse</span>
+                            <span class="gear-name"><svg class="ub-mark is-razer" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M23.4 0a.385.385 0 00-.278.125L22.91.35l-.401.182a.711.711 0 00-.417 0 .305.305 0 01-.171 0 1.005 1.005 0 00-.567 0A.936.936 0 0021 .596a.877.877 0 00-.412.337l-.037.048a1.246 1.246 0 00-.898.684 1.07 1.07 0 00-.07.225 1.935 1.935 0 00-.337-.193 2.026 2.026 0 00-2.063.305 2.08 2.08 0 00-.69 2.139c.086.376.23.737.428 1.069.496.776 1.079 1.494 1.737 2.138.526.512.996 1.078 1.401 1.69l.053.096c.396.754.321 1.31-.219 1.647a1.358 1.358 0 01-.572.198 2.491 2.491 0 00-.144-2.07 2.342 2.342 0 00-.3-.406c-.79-.866-1.63-.674-1.962-.449a.385.385 0 00-.15.455l.027.058a.385.385 0 00.38.188 1.07 1.07 0 01.962.582c.23.384.23.862 0 1.246a4.812 4.812 0 01-.534-.535l-.07-.07-.037-.042a3.368 3.368 0 00-1.92-1.208 3.09 3.09 0 00-.406-1.455 4.368 4.368 0 00-1.358-1.48 2.673 2.673 0 00-.267-.16 3.085 3.085 0 00-2.251-2.717 2.7 2.7 0 00-2.968 1.139c-.053.086-.112.171-.165.267a12.26 12.26 0 00-1.038 2.78 11.64 11.64 0 01-.775 2.187l-.059.107c-.213.374-.406.583-.609.647a.406.406 0 01-.374-.064c-.203-.14-.155-.423 0-.973a3.33 3.33 0 00.128-.45c.07-.33-.005-.673-.203-.946a1.07 1.07 0 00-.786-.411c-.49-.018-.94.27-1.128.722l-.08.15a.968.968 0 00-.316-.46.936.936 0 00-.294-.129 1.016 1.016 0 00-.535-.198.342.342 0 01-.17-.053.711.711 0 00-.434-.097l-.326-.256-.144-.278c-.18-.35-.707-.238-.727.155a.385.385 0 00.032.727l.305.075.342.267c.026.14.093.268.192.37.043.04.072.092.086.149.058.184.167.347.315.47a.877.877 0 00.727.465h.06c.262.313.662.477 1.068.439a1.07 1.07 0 00.23-.054 1.935 1.935 0 000 .38 2.026 2.026 0 001.3 1.636 2.08 2.08 0 002.208-.481c.276-.26.51-.562.695-.893.422-.817.75-1.68.978-2.572.179-.711.433-1.401.76-2.058l.058-.096c.454-.722.973-.936 1.535-.637.18.096.338.231.46.396-.714.12-1.34.543-1.717 1.16-.084.146-.152.3-.203.46-.353 1.117.23 1.748.593 1.925.16.077.353.035.466-.102l.037-.053a.385.385 0 000-.423 1.07 1.07 0 010-1.128c.218-.384.627-.62 1.07-.615-.04.245-.1.486-.177.722l-.034.093a3.533 3.533 0 00-.084 2.324 3.09 3.09 0 00-1.07 1.07 4.368 4.368 0 00-.603 1.913 2.674 2.674 0 000 .31 3.085 3.085 0 00-1.23 3.31 2.7 2.7 0 002.47 2h.31a12.26 12.26 0 002.925-.493 11.64 11.64 0 012.283-.422h.117c.304-.037.61.035.866.203.102.09.152.224.134.358 0 .246-.289.348-.855.466a3.33 3.33 0 00-.45.117 1.192 1.192 0 00-.721.647 1.07 1.07 0 00.037.888c.229.435.704.683 1.193.62h.165a.968.968 0 00-.235.502.936.936 0 000 .364c-.019.183.013.368.091.535.03.054.045.115.043.176-.002.151.045.3.133.422l-.058.412-.166.262a.385.385 0 00.497.535c.287.265.74-.016.63-.39l-.085-.3.064-.433a.711.711 0 00.22-.353.305.305 0 01.085-.15c.131-.141.218-.318.252-.508a.936.936 0 00.122-.336.877.877 0 00-.085-.535v-.053c.134-.376.08-.794-.144-1.123a1.07 1.07 0 00-.16-.171c.115-.05.226-.11.33-.182a2.026 2.026 0 00.77-1.94 2.08 2.08 0 00-1.518-1.674 3.71 3.71 0 00-1.123-.155c-.919.043-1.83.19-2.716.438-.697.198-1.414.322-2.138.369h-.112c-.85-.032-1.294-.374-1.316-1.01-.007-.204.031-.407.113-.594.459.559 1.138.89 1.86.909.17 0 .338-.018.503-.054 1.144-.25 1.4-1.069 1.374-1.475a.385.385 0 00-.321-.353h-.064a.385.385 0 00-.353.235 1.07 1.07 0 01-.984.535 1.214 1.214 0 01-1.069-.631c.233-.088.473-.158.716-.209h.155a3.368 3.368 0 002.01-1.069c.449.243.95.372 1.46.374.679.01 1.35-.138 1.962-.433.094-.044.185-.094.273-.15a3.085 3.085 0 003.48-.587 2.7 2.7 0 00.498-3.139 6.884 6.884 0 00-.15-.273 12.259 12.259 0 00-1.887-2.288 11.64 11.64 0 01-1.508-1.764l-.064-.102a1.294 1.294 0 01-.257-.85.406.406 0 01.16-.267c.225-.107.444.08.83.508.1.118.21.228.326.331.25.225.584.334.92.3a1.07 1.07 0 00.748-.476c.263-.416.24-.951-.06-1.342l-.085-.145c.18.035.365.019.535-.048a.936.936 0 00.32-.197c.178-.076.33-.2.44-.359a.342.342 0 01.133-.123.711.711 0 00.3-.326l.384-.155h.31a.385.385 0 00.353-.577l-.005.01a.385.385 0 00-.118-.128A.385.385 0 0023.4 0zm.006.398l-.187.315.347.086-.395.005-.658.262a.262.262 0 01-.171.262c-.316.182-.198.321-.583.487-.08.032-.107.101-.256.176-.15.075-.407-.027-.535 0a.32.32 0 00-.203.535c.085.144.486.679.192 1.112a.711.711 0 01-1.107.102c-.368-.305-.866-1.214-1.577-.877-.71.336-.502 1.128-.085 1.796.882 1.39 2.705 2.673 3.523 4.277 1 2-1.107 4.336-3.673 3.117a2.326 2.326 0 01-.396.24c-1.069.535-2.512.578-3.395-.117-.395.941-1.79 1.182-2.031 1.24-.423.08-.832.22-1.214.418.487 1.614 2.47 1.454 2.908.427 0 0 .054.824-1.069 1.07a2.139 2.139 0 01-2.288-1.16c-.33.346-.507.81-.492 1.288.027.69.46 1.337 1.69 1.385 1.662.064 4.25-1.203 6.014-.669 1.344.335 1.723 2.065.642 2.93a2.732 2.732 0 01-1.23.385c-.182.01-.198.091-.181.145.016.053.117.053.278.053.582-.053 1.208.283.93 1.166-.043.123.155.352.117.534-.053.262-.112.203-.112.289-.07.412-.235.326-.337.679a.257.257 0 01-.203.208l-.101.706.112.38-.182-.321-.251.257.214-.332.101-.7a.262.262 0 01-.16-.267c0-.364-.182-.332-.128-.75.037-.085 0-.042 0-.31.016-.186.23-.341.272-.48.043-.14.054-.45-.369-.45-.198.006-.85.075-1.069-.39a.711.711 0 01.465-1.01c.45-.16 1.497-.123 1.556-.91.059-.785-.727-.999-1.513-.972-1.657.059-3.663 1.01-5.48.903-2.23-.128-3.198-3.133-.861-4.737a2.326 2.326 0 010-.465c.09-1.219.77-2.47 1.812-2.85-.593-.818-.128-2.149-.058-2.384.135-.4.213-.818.23-1.24-1.642-.37-2.497 1.411-1.824 2.304 0 0-.743-.369-.395-1.465a2.139 2.139 0 012.138-1.4 1.786 1.786 0 00-.871-1.07c-.61-.3-1.385-.267-2.043.77-.887 1.411-1.063 4.293-2.427 5.544-.961 1-2.652.463-2.86-.909a2.732 2.732 0 01.278-1.256c.08-.166.032-.214-.038-.23-.07-.016-.123.07-.187.214a.823.823 0 01-1.475.224c-.097-.107-.342.006-.535-.17-.192-.177-.128-.188-.192-.241-.321-.273-.16-.375-.418-.636a.257.257 0 01-.08-.284L.796 7.2.41 7.102h.38l-.102-.347.182.353.534.438a.262.262 0 01.31 0c.321.182.38.01.717.262.07.054.133.027.283.134.15.107.187.374.278.476a.32.32 0 00.572-.096c.086-.193.332-.77.866-.728.457.027.77.47.642.91-.091.47-.652 1.357 0 1.801.652.444 1.235-.134 1.604-.829.775-1.46.957-3.678 1.957-5.202 1.23-1.887 4.309-1.224 4.533 1.604.145.06.283.136.412.225 1.032.69 1.759 1.924 1.567 2.994 1.02-.129 1.919.957 2.09 1.138.28.328.606.612.968.845 1.165-1.23.037-2.865-1.07-2.732 0 0 .69-.46 1.466.39.61.728.666 1.772.139 2.561.465.113.956.034 1.363-.219.583-.353.925-1.07.353-2.138-.776-1.476-3.187-3.075-3.588-4.876-.384-1.333.928-2.528 2.219-2.021.38.21.705.51.946.871.102.155.166.134.214.086.048-.048-.005-.14-.096-.268a.823.823 0 01.534-1.39c.145-.027.161-.289.418-.374.256-.086.23-.016.31-.048.395-.15.406.043.759-.048.1-.038.212-.01.283.07l.68-.263zm-10.297 6.26c-.065.53-.348 1.647-.187 2.332.155.871.823.823 1.069.395.163-.332.2-.711.107-1.069a3.106 3.106 0 00-.984-1.636zm.256.872c.17.262.293.551.364.856a1.3 1.3 0 010 .759c-.086.187-.332.187-.423-.23-.04-.462-.02-.928.06-1.385zm1.727 2.661c-.517.012-.67.472-.47.82.207.31.521.534.882.63a3.106 3.106 0 001.908-.037c-.422-.32-1.25-1.123-1.903-1.342a1.255 1.255 0 00-.417-.07zm.088.401a.807.807 0 01.201.04c.429.197.83.45 1.192.753a2.82 2.82 0 01-.962-.107 1.3 1.3 0 01-.642-.396c-.095-.134-.036-.3.21-.29zm-2.285.183a1.54 1.54 0 00-.984.45 3.106 3.106 0 00-.936 1.673c.535-.203 1.604-.519 2.139-.973.663-.588.251-1.166-.22-1.15zm-.025.341c.188.008.276.217-.04.488a5.39 5.39 0 01-1.234.631c.134-.277.315-.528.534-.743a1.3 1.3 0 01.7-.374.284.284 0 01.04-.002z"/></svg><span>Razer Viper 8KHz</span></span>
+                            <span class="gear-spec">800 DPI · 1000 Hz polling</span>
+                            <span class="gear-quip"># 8000 Hz capable, runs at 1000. the 4600H says thanks.</span>
+                        </li>
+                        <li class="gear" style="--c: #44d62c">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="6"/><path d="M12 6v4"/></svg>
+                            <span class="gear-kind">mouse</span>
+                            <span class="gear-name"><img class="gear-logo is-color" src="img/brands/fantech.png" width="15" height="15" alt=""><span>Fantech Kanata WG19</span></span>
+                            <span class="gear-spec"><svg class="ub-mark is-hololive" viewBox="0 0 43 42.6" width="12.1" height="12" aria-hidden="true"><path d="M5.712666,3.296583l-2.096549-.126242C.998803,3.012757-.807612,5.747568.364559,8.093019l5.348107,10.701232V3.296583Z" fill="#19beff"/><path d="M40.103042,15.702609L13.576255.387361c-1.906307-1.100607-4.28919.275152-4.28919,2.476365v30.630496c0,2.201213,2.382883,3.576972,4.28919,2.476365l26.526787-15.315248c1.906307-1.100607,1.906307-3.852123,0-4.95273Z" fill="#00dcf5"/><path d="M15.736204,38.850725l.939504,1.879862c1.172171,2.345451,4.443818,2.542431,5.888943.354564l6.594961-9.984432-13.423408,7.750007Z" fill="#326ed2"/><path d="M28.098156,4.644427l11.938487.718836c2.617259.157584,4.082491,3.089393,2.637403,5.27726l-1.156827,1.751384-13.419063-7.74748Z" fill="#3796f0"/></svg>hololive Vestia Zeta edition</span>
+                            <span class="gear-quip"># support your oshi, one click at a time.</span>
+                        </li>
+                        <li class="gear" style="--c: #44d62c">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><rect x="12" y="8.5" width="5" height="7" rx="2.5"/></svg>
+                            <span class="gear-kind">mousepad</span>
+                            <span class="gear-name"><svg class="ub-mark is-razer" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M23.4 0a.385.385 0 00-.278.125L22.91.35l-.401.182a.711.711 0 00-.417 0 .305.305 0 01-.171 0 1.005 1.005 0 00-.567 0A.936.936 0 0021 .596a.877.877 0 00-.412.337l-.037.048a1.246 1.246 0 00-.898.684 1.07 1.07 0 00-.07.225 1.935 1.935 0 00-.337-.193 2.026 2.026 0 00-2.063.305 2.08 2.08 0 00-.69 2.139c.086.376.23.737.428 1.069.496.776 1.079 1.494 1.737 2.138.526.512.996 1.078 1.401 1.69l.053.096c.396.754.321 1.31-.219 1.647a1.358 1.358 0 01-.572.198 2.491 2.491 0 00-.144-2.07 2.342 2.342 0 00-.3-.406c-.79-.866-1.63-.674-1.962-.449a.385.385 0 00-.15.455l.027.058a.385.385 0 00.38.188 1.07 1.07 0 01.962.582c.23.384.23.862 0 1.246a4.812 4.812 0 01-.534-.535l-.07-.07-.037-.042a3.368 3.368 0 00-1.92-1.208 3.09 3.09 0 00-.406-1.455 4.368 4.368 0 00-1.358-1.48 2.673 2.673 0 00-.267-.16 3.085 3.085 0 00-2.251-2.717 2.7 2.7 0 00-2.968 1.139c-.053.086-.112.171-.165.267a12.26 12.26 0 00-1.038 2.78 11.64 11.64 0 01-.775 2.187l-.059.107c-.213.374-.406.583-.609.647a.406.406 0 01-.374-.064c-.203-.14-.155-.423 0-.973a3.33 3.33 0 00.128-.45c.07-.33-.005-.673-.203-.946a1.07 1.07 0 00-.786-.411c-.49-.018-.94.27-1.128.722l-.08.15a.968.968 0 00-.316-.46.936.936 0 00-.294-.129 1.016 1.016 0 00-.535-.198.342.342 0 01-.17-.053.711.711 0 00-.434-.097l-.326-.256-.144-.278c-.18-.35-.707-.238-.727.155a.385.385 0 00.032.727l.305.075.342.267c.026.14.093.268.192.37.043.04.072.092.086.149.058.184.167.347.315.47a.877.877 0 00.727.465h.06c.262.313.662.477 1.068.439a1.07 1.07 0 00.23-.054 1.935 1.935 0 000 .38 2.026 2.026 0 001.3 1.636 2.08 2.08 0 002.208-.481c.276-.26.51-.562.695-.893.422-.817.75-1.68.978-2.572.179-.711.433-1.401.76-2.058l.058-.096c.454-.722.973-.936 1.535-.637.18.096.338.231.46.396-.714.12-1.34.543-1.717 1.16-.084.146-.152.3-.203.46-.353 1.117.23 1.748.593 1.925.16.077.353.035.466-.102l.037-.053a.385.385 0 000-.423 1.07 1.07 0 010-1.128c.218-.384.627-.62 1.07-.615-.04.245-.1.486-.177.722l-.034.093a3.533 3.533 0 00-.084 2.324 3.09 3.09 0 00-1.07 1.07 4.368 4.368 0 00-.603 1.913 2.674 2.674 0 000 .31 3.085 3.085 0 00-1.23 3.31 2.7 2.7 0 002.47 2h.31a12.26 12.26 0 002.925-.493 11.64 11.64 0 012.283-.422h.117c.304-.037.61.035.866.203.102.09.152.224.134.358 0 .246-.289.348-.855.466a3.33 3.33 0 00-.45.117 1.192 1.192 0 00-.721.647 1.07 1.07 0 00.037.888c.229.435.704.683 1.193.62h.165a.968.968 0 00-.235.502.936.936 0 000 .364c-.019.183.013.368.091.535.03.054.045.115.043.176-.002.151.045.3.133.422l-.058.412-.166.262a.385.385 0 00.497.535c.287.265.74-.016.63-.39l-.085-.3.064-.433a.711.711 0 00.22-.353.305.305 0 01.085-.15c.131-.141.218-.318.252-.508a.936.936 0 00.122-.336.877.877 0 00-.085-.535v-.053c.134-.376.08-.794-.144-1.123a1.07 1.07 0 00-.16-.171c.115-.05.226-.11.33-.182a2.026 2.026 0 00.77-1.94 2.08 2.08 0 00-1.518-1.674 3.71 3.71 0 00-1.123-.155c-.919.043-1.83.19-2.716.438-.697.198-1.414.322-2.138.369h-.112c-.85-.032-1.294-.374-1.316-1.01-.007-.204.031-.407.113-.594.459.559 1.138.89 1.86.909.17 0 .338-.018.503-.054 1.144-.25 1.4-1.069 1.374-1.475a.385.385 0 00-.321-.353h-.064a.385.385 0 00-.353.235 1.07 1.07 0 01-.984.535 1.214 1.214 0 01-1.069-.631c.233-.088.473-.158.716-.209h.155a3.368 3.368 0 002.01-1.069c.449.243.95.372 1.46.374.679.01 1.35-.138 1.962-.433.094-.044.185-.094.273-.15a3.085 3.085 0 003.48-.587 2.7 2.7 0 00.498-3.139 6.884 6.884 0 00-.15-.273 12.259 12.259 0 00-1.887-2.288 11.64 11.64 0 01-1.508-1.764l-.064-.102a1.294 1.294 0 01-.257-.85.406.406 0 01.16-.267c.225-.107.444.08.83.508.1.118.21.228.326.331.25.225.584.334.92.3a1.07 1.07 0 00.748-.476c.263-.416.24-.951-.06-1.342l-.085-.145c.18.035.365.019.535-.048a.936.936 0 00.32-.197c.178-.076.33-.2.44-.359a.342.342 0 01.133-.123.711.711 0 00.3-.326l.384-.155h.31a.385.385 0 00.353-.577l-.005.01a.385.385 0 00-.118-.128A.385.385 0 0023.4 0zm.006.398l-.187.315.347.086-.395.005-.658.262a.262.262 0 01-.171.262c-.316.182-.198.321-.583.487-.08.032-.107.101-.256.176-.15.075-.407-.027-.535 0a.32.32 0 00-.203.535c.085.144.486.679.192 1.112a.711.711 0 01-1.107.102c-.368-.305-.866-1.214-1.577-.877-.71.336-.502 1.128-.085 1.796.882 1.39 2.705 2.673 3.523 4.277 1 2-1.107 4.336-3.673 3.117a2.326 2.326 0 01-.396.24c-1.069.535-2.512.578-3.395-.117-.395.941-1.79 1.182-2.031 1.24-.423.08-.832.22-1.214.418.487 1.614 2.47 1.454 2.908.427 0 0 .054.824-1.069 1.07a2.139 2.139 0 01-2.288-1.16c-.33.346-.507.81-.492 1.288.027.69.46 1.337 1.69 1.385 1.662.064 4.25-1.203 6.014-.669 1.344.335 1.723 2.065.642 2.93a2.732 2.732 0 01-1.23.385c-.182.01-.198.091-.181.145.016.053.117.053.278.053.582-.053 1.208.283.93 1.166-.043.123.155.352.117.534-.053.262-.112.203-.112.289-.07.412-.235.326-.337.679a.257.257 0 01-.203.208l-.101.706.112.38-.182-.321-.251.257.214-.332.101-.7a.262.262 0 01-.16-.267c0-.364-.182-.332-.128-.75.037-.085 0-.042 0-.31.016-.186.23-.341.272-.48.043-.14.054-.45-.369-.45-.198.006-.85.075-1.069-.39a.711.711 0 01.465-1.01c.45-.16 1.497-.123 1.556-.91.059-.785-.727-.999-1.513-.972-1.657.059-3.663 1.01-5.48.903-2.23-.128-3.198-3.133-.861-4.737a2.326 2.326 0 010-.465c.09-1.219.77-2.47 1.812-2.85-.593-.818-.128-2.149-.058-2.384.135-.4.213-.818.23-1.24-1.642-.37-2.497 1.411-1.824 2.304 0 0-.743-.369-.395-1.465a2.139 2.139 0 012.138-1.4 1.786 1.786 0 00-.871-1.07c-.61-.3-1.385-.267-2.043.77-.887 1.411-1.063 4.293-2.427 5.544-.961 1-2.652.463-2.86-.909a2.732 2.732 0 01.278-1.256c.08-.166.032-.214-.038-.23-.07-.016-.123.07-.187.214a.823.823 0 01-1.475.224c-.097-.107-.342.006-.535-.17-.192-.177-.128-.188-.192-.241-.321-.273-.16-.375-.418-.636a.257.257 0 01-.08-.284L.796 7.2.41 7.102h.38l-.102-.347.182.353.534.438a.262.262 0 01.31 0c.321.182.38.01.717.262.07.054.133.027.283.134.15.107.187.374.278.476a.32.32 0 00.572-.096c.086-.193.332-.77.866-.728.457.027.77.47.642.91-.091.47-.652 1.357 0 1.801.652.444 1.235-.134 1.604-.829.775-1.46.957-3.678 1.957-5.202 1.23-1.887 4.309-1.224 4.533 1.604.145.06.283.136.412.225 1.032.69 1.759 1.924 1.567 2.994 1.02-.129 1.919.957 2.09 1.138.28.328.606.612.968.845 1.165-1.23.037-2.865-1.07-2.732 0 0 .69-.46 1.466.39.61.728.666 1.772.139 2.561.465.113.956.034 1.363-.219.583-.353.925-1.07.353-2.138-.776-1.476-3.187-3.075-3.588-4.876-.384-1.333.928-2.528 2.219-2.021.38.21.705.51.946.871.102.155.166.134.214.086.048-.048-.005-.14-.096-.268a.823.823 0 01.534-1.39c.145-.027.161-.289.418-.374.256-.086.23-.016.31-.048.395-.15.406.043.759-.048.1-.038.212-.01.283.07l.68-.263zm-10.297 6.26c-.065.53-.348 1.647-.187 2.332.155.871.823.823 1.069.395.163-.332.2-.711.107-1.069a3.106 3.106 0 00-.984-1.636zm.256.872c.17.262.293.551.364.856a1.3 1.3 0 010 .759c-.086.187-.332.187-.423-.23-.04-.462-.02-.928.06-1.385zm1.727 2.661c-.517.012-.67.472-.47.82.207.31.521.534.882.63a3.106 3.106 0 001.908-.037c-.422-.32-1.25-1.123-1.903-1.342a1.255 1.255 0 00-.417-.07zm.088.401a.807.807 0 01.201.04c.429.197.83.45 1.192.753a2.82 2.82 0 01-.962-.107 1.3 1.3 0 01-.642-.396c-.095-.134-.036-.3.21-.29zm-2.285.183a1.54 1.54 0 00-.984.45 3.106 3.106 0 00-.936 1.673c.535-.203 1.604-.519 2.139-.973.663-.588.251-1.166-.22-1.15zm-.025.341c.188.008.276.217-.04.488a5.39 5.39 0 01-1.234.631c.134-.277.315-.528.534-.743a1.3 1.3 0 01.7-.374.284.284 0 01.04-.002z"/></svg><span>Razer Gigantus V2</span></span>
+                            <span class="gear-spec">cloth, big</span>
+                            <span class="gear-quip"># 800 DPI means big arm swings. big pad required.</span>
+                        </li>
+                        <li class="gear" style="--c: #44d62c">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><rect x="12" y="8.5" width="5" height="7" rx="2.5"/></svg>
+                            <span class="gear-kind">mousepad</span>
+                            <span class="gear-name"><img class="gear-logo is-color" src="img/brands/fantech.png" width="15" height="15" alt=""><span>Fantech x Vestia Zeta</span></span>
+                            <span class="gear-spec"><svg class="ub-mark is-hololive" viewBox="0 0 43 42.6" width="12.1" height="12" aria-hidden="true"><path d="M5.712666,3.296583l-2.096549-.126242C.998803,3.012757-.807612,5.747568.364559,8.093019l5.348107,10.701232V3.296583Z" fill="#19beff"/><path d="M40.103042,15.702609L13.576255.387361c-1.906307-1.100607-4.28919.275152-4.28919,2.476365v30.630496c0,2.201213,2.382883,3.576972,4.28919,2.476365l26.526787-15.315248c1.906307-1.100607,1.906307-3.852123,0-4.95273Z" fill="#00dcf5"/><path d="M15.736204,38.850725l.939504,1.879862c1.172171,2.345451,4.443818,2.542431,5.888943.354564l6.594961-9.984432-13.423408,7.750007Z" fill="#326ed2"/><path d="M28.098156,4.644427l11.938487.718836c2.617259.157584,4.082491,3.089393,2.637403,5.27726l-1.156827,1.751384-13.419063-7.74748Z" fill="#3796f0"/></svg>hololive collab</span>
+                            <span class="gear-quip"># matches the mouse. obviously.</span>
+                        </li>
+                        <li class="gear" style="--c: #44d62c">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+                            <span class="gear-kind">keyboard</span>
+                            <span class="gear-name"><svg class="ub-mark is-razer" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M23.4 0a.385.385 0 00-.278.125L22.91.35l-.401.182a.711.711 0 00-.417 0 .305.305 0 01-.171 0 1.005 1.005 0 00-.567 0A.936.936 0 0021 .596a.877.877 0 00-.412.337l-.037.048a1.246 1.246 0 00-.898.684 1.07 1.07 0 00-.07.225 1.935 1.935 0 00-.337-.193 2.026 2.026 0 00-2.063.305 2.08 2.08 0 00-.69 2.139c.086.376.23.737.428 1.069.496.776 1.079 1.494 1.737 2.138.526.512.996 1.078 1.401 1.69l.053.096c.396.754.321 1.31-.219 1.647a1.358 1.358 0 01-.572.198 2.491 2.491 0 00-.144-2.07 2.342 2.342 0 00-.3-.406c-.79-.866-1.63-.674-1.962-.449a.385.385 0 00-.15.455l.027.058a.385.385 0 00.38.188 1.07 1.07 0 01.962.582c.23.384.23.862 0 1.246a4.812 4.812 0 01-.534-.535l-.07-.07-.037-.042a3.368 3.368 0 00-1.92-1.208 3.09 3.09 0 00-.406-1.455 4.368 4.368 0 00-1.358-1.48 2.673 2.673 0 00-.267-.16 3.085 3.085 0 00-2.251-2.717 2.7 2.7 0 00-2.968 1.139c-.053.086-.112.171-.165.267a12.26 12.26 0 00-1.038 2.78 11.64 11.64 0 01-.775 2.187l-.059.107c-.213.374-.406.583-.609.647a.406.406 0 01-.374-.064c-.203-.14-.155-.423 0-.973a3.33 3.33 0 00.128-.45c.07-.33-.005-.673-.203-.946a1.07 1.07 0 00-.786-.411c-.49-.018-.94.27-1.128.722l-.08.15a.968.968 0 00-.316-.46.936.936 0 00-.294-.129 1.016 1.016 0 00-.535-.198.342.342 0 01-.17-.053.711.711 0 00-.434-.097l-.326-.256-.144-.278c-.18-.35-.707-.238-.727.155a.385.385 0 00.032.727l.305.075.342.267c.026.14.093.268.192.37.043.04.072.092.086.149.058.184.167.347.315.47a.877.877 0 00.727.465h.06c.262.313.662.477 1.068.439a1.07 1.07 0 00.23-.054 1.935 1.935 0 000 .38 2.026 2.026 0 001.3 1.636 2.08 2.08 0 002.208-.481c.276-.26.51-.562.695-.893.422-.817.75-1.68.978-2.572.179-.711.433-1.401.76-2.058l.058-.096c.454-.722.973-.936 1.535-.637.18.096.338.231.46.396-.714.12-1.34.543-1.717 1.16-.084.146-.152.3-.203.46-.353 1.117.23 1.748.593 1.925.16.077.353.035.466-.102l.037-.053a.385.385 0 000-.423 1.07 1.07 0 010-1.128c.218-.384.627-.62 1.07-.615-.04.245-.1.486-.177.722l-.034.093a3.533 3.533 0 00-.084 2.324 3.09 3.09 0 00-1.07 1.07 4.368 4.368 0 00-.603 1.913 2.674 2.674 0 000 .31 3.085 3.085 0 00-1.23 3.31 2.7 2.7 0 002.47 2h.31a12.26 12.26 0 002.925-.493 11.64 11.64 0 012.283-.422h.117c.304-.037.61.035.866.203.102.09.152.224.134.358 0 .246-.289.348-.855.466a3.33 3.33 0 00-.45.117 1.192 1.192 0 00-.721.647 1.07 1.07 0 00.037.888c.229.435.704.683 1.193.62h.165a.968.968 0 00-.235.502.936.936 0 000 .364c-.019.183.013.368.091.535.03.054.045.115.043.176-.002.151.045.3.133.422l-.058.412-.166.262a.385.385 0 00.497.535c.287.265.74-.016.63-.39l-.085-.3.064-.433a.711.711 0 00.22-.353.305.305 0 01.085-.15c.131-.141.218-.318.252-.508a.936.936 0 00.122-.336.877.877 0 00-.085-.535v-.053c.134-.376.08-.794-.144-1.123a1.07 1.07 0 00-.16-.171c.115-.05.226-.11.33-.182a2.026 2.026 0 00.77-1.94 2.08 2.08 0 00-1.518-1.674 3.71 3.71 0 00-1.123-.155c-.919.043-1.83.19-2.716.438-.697.198-1.414.322-2.138.369h-.112c-.85-.032-1.294-.374-1.316-1.01-.007-.204.031-.407.113-.594.459.559 1.138.89 1.86.909.17 0 .338-.018.503-.054 1.144-.25 1.4-1.069 1.374-1.475a.385.385 0 00-.321-.353h-.064a.385.385 0 00-.353.235 1.07 1.07 0 01-.984.535 1.214 1.214 0 01-1.069-.631c.233-.088.473-.158.716-.209h.155a3.368 3.368 0 002.01-1.069c.449.243.95.372 1.46.374.679.01 1.35-.138 1.962-.433.094-.044.185-.094.273-.15a3.085 3.085 0 003.48-.587 2.7 2.7 0 00.498-3.139 6.884 6.884 0 00-.15-.273 12.259 12.259 0 00-1.887-2.288 11.64 11.64 0 01-1.508-1.764l-.064-.102a1.294 1.294 0 01-.257-.85.406.406 0 01.16-.267c.225-.107.444.08.83.508.1.118.21.228.326.331.25.225.584.334.92.3a1.07 1.07 0 00.748-.476c.263-.416.24-.951-.06-1.342l-.085-.145c.18.035.365.019.535-.048a.936.936 0 00.32-.197c.178-.076.33-.2.44-.359a.342.342 0 01.133-.123.711.711 0 00.3-.326l.384-.155h.31a.385.385 0 00.353-.577l-.005.01a.385.385 0 00-.118-.128A.385.385 0 0023.4 0zm.006.398l-.187.315.347.086-.395.005-.658.262a.262.262 0 01-.171.262c-.316.182-.198.321-.583.487-.08.032-.107.101-.256.176-.15.075-.407-.027-.535 0a.32.32 0 00-.203.535c.085.144.486.679.192 1.112a.711.711 0 01-1.107.102c-.368-.305-.866-1.214-1.577-.877-.71.336-.502 1.128-.085 1.796.882 1.39 2.705 2.673 3.523 4.277 1 2-1.107 4.336-3.673 3.117a2.326 2.326 0 01-.396.24c-1.069.535-2.512.578-3.395-.117-.395.941-1.79 1.182-2.031 1.24-.423.08-.832.22-1.214.418.487 1.614 2.47 1.454 2.908.427 0 0 .054.824-1.069 1.07a2.139 2.139 0 01-2.288-1.16c-.33.346-.507.81-.492 1.288.027.69.46 1.337 1.69 1.385 1.662.064 4.25-1.203 6.014-.669 1.344.335 1.723 2.065.642 2.93a2.732 2.732 0 01-1.23.385c-.182.01-.198.091-.181.145.016.053.117.053.278.053.582-.053 1.208.283.93 1.166-.043.123.155.352.117.534-.053.262-.112.203-.112.289-.07.412-.235.326-.337.679a.257.257 0 01-.203.208l-.101.706.112.38-.182-.321-.251.257.214-.332.101-.7a.262.262 0 01-.16-.267c0-.364-.182-.332-.128-.75.037-.085 0-.042 0-.31.016-.186.23-.341.272-.48.043-.14.054-.45-.369-.45-.198.006-.85.075-1.069-.39a.711.711 0 01.465-1.01c.45-.16 1.497-.123 1.556-.91.059-.785-.727-.999-1.513-.972-1.657.059-3.663 1.01-5.48.903-2.23-.128-3.198-3.133-.861-4.737a2.326 2.326 0 010-.465c.09-1.219.77-2.47 1.812-2.85-.593-.818-.128-2.149-.058-2.384.135-.4.213-.818.23-1.24-1.642-.37-2.497 1.411-1.824 2.304 0 0-.743-.369-.395-1.465a2.139 2.139 0 012.138-1.4 1.786 1.786 0 00-.871-1.07c-.61-.3-1.385-.267-2.043.77-.887 1.411-1.063 4.293-2.427 5.544-.961 1-2.652.463-2.86-.909a2.732 2.732 0 01.278-1.256c.08-.166.032-.214-.038-.23-.07-.016-.123.07-.187.214a.823.823 0 01-1.475.224c-.097-.107-.342.006-.535-.17-.192-.177-.128-.188-.192-.241-.321-.273-.16-.375-.418-.636a.257.257 0 01-.08-.284L.796 7.2.41 7.102h.38l-.102-.347.182.353.534.438a.262.262 0 01.31 0c.321.182.38.01.717.262.07.054.133.027.283.134.15.107.187.374.278.476a.32.32 0 00.572-.096c.086-.193.332-.77.866-.728.457.027.77.47.642.91-.091.47-.652 1.357 0 1.801.652.444 1.235-.134 1.604-.829.775-1.46.957-3.678 1.957-5.202 1.23-1.887 4.309-1.224 4.533 1.604.145.06.283.136.412.225 1.032.69 1.759 1.924 1.567 2.994 1.02-.129 1.919.957 2.09 1.138.28.328.606.612.968.845 1.165-1.23.037-2.865-1.07-2.732 0 0 .69-.46 1.466.39.61.728.666 1.772.139 2.561.465.113.956.034 1.363-.219.583-.353.925-1.07.353-2.138-.776-1.476-3.187-3.075-3.588-4.876-.384-1.333.928-2.528 2.219-2.021.38.21.705.51.946.871.102.155.166.134.214.086.048-.048-.005-.14-.096-.268a.823.823 0 01.534-1.39c.145-.027.161-.289.418-.374.256-.086.23-.016.31-.048.395-.15.406.043.759-.048.1-.038.212-.01.283.07l.68-.263zm-10.297 6.26c-.065.53-.348 1.647-.187 2.332.155.871.823.823 1.069.395.163-.332.2-.711.107-1.069a3.106 3.106 0 00-.984-1.636zm.256.872c.17.262.293.551.364.856a1.3 1.3 0 010 .759c-.086.187-.332.187-.423-.23-.04-.462-.02-.928.06-1.385zm1.727 2.661c-.517.012-.67.472-.47.82.207.31.521.534.882.63a3.106 3.106 0 001.908-.037c-.422-.32-1.25-1.123-1.903-1.342a1.255 1.255 0 00-.417-.07zm.088.401a.807.807 0 01.201.04c.429.197.83.45 1.192.753a2.82 2.82 0 01-.962-.107 1.3 1.3 0 01-.642-.396c-.095-.134-.036-.3.21-.29zm-2.285.183a1.54 1.54 0 00-.984.45 3.106 3.106 0 00-.936 1.673c.535-.203 1.604-.519 2.139-.973.663-.588.251-1.166-.22-1.15zm-.025.341c.188.008.276.217-.04.488a5.39 5.39 0 01-1.234.631c.134-.277.315-.528.534-.743a1.3 1.3 0 01.7-.374.284.284 0 01.04-.002z"/></svg><span>Razer BlackWidow V3 TKL</span></span>
+                            <span class="gear-spec">mechanical, tenkeyless</span>
+                            <span class="gear-quip"># no numpad. more room for those arm swings.</span>
+                        </li>
+                        <li class="gear" style="--c: #44d62c">
+                            <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg>
+                            <span class="gear-kind">keyboard</span>
+                            <span class="gear-name"><svg class="ub-mark is-vortex" viewBox="0 5 64 54" width="18" height="15" aria-hidden="true"><path d="M63.3 5.4 32.1 58.6 26 48.2 38.2 27h-2.5l-11 19.1L.7 5.4H37L24.5 27H27L39.4 5.4z"/></svg><span>VortexSeries GT-6</span></span>
+                            <span class="gear-spec">65% · hot-swap · knob · tri-mode wireless</span>
+                            <span class="gear-quip"># the understudy. knows all the lines.</span>
+                        </li>
+                        </ul>
+                    </section>
+                    <div class="rig-duo">
+                        <section class="rig-sec" aria-label="display" style="--c: #ff6900">
+                            <p class="rig-sec-head"><span class="rig-s">[display]</span> <span class="rig-c">1 device</span></p>
+                            <ul class="gear-grid">
+                            <li class="gear" style="--c: #ff6900">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="13" rx="2"/><path d="M8 21h8M12 16v5"/></svg>
+                                <span class="gear-kind">monitor</span>
+                                <span class="gear-name"><svg class="ub-mark is-xiaomi" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 0C8.016 0 4.756.255 2.493 2.516.23 4.776 0 8.033 0 12.012c0 3.98.23 7.235 2.494 9.497C4.757 23.77 8.017 24 12 24c3.983 0 7.243-.23 9.506-2.491C23.77 19.247 24 15.99 24 12.012c0-3.984-.233-7.243-2.502-9.504C19.234.252 15.978 0 12 0zM4.906 7.405h5.624c1.47 0 3.007.068 3.764.827.746.746.827 2.233.83 3.676v4.54a.15.15 0 0 1-.152.147h-1.947a.15.15 0 0 1-.152-.148V11.83c-.002-.806-.048-1.634-.464-2.051-.358-.36-1.026-.441-1.72-.458H7.158a.15.15 0 0 0-.151.147v6.98a.15.15 0 0 1-.152.148H4.906a.15.15 0 0 1-.15-.148V7.554a.15.15 0 0 1 .15-.149zm12.131 0h1.949a.15.15 0 0 1 .15.15v8.892a.15.15 0 0 1-.15.148h-1.949a.15.15 0 0 1-.151-.148V7.554a.15.15 0 0 1 .151-.149zM8.92 10.948h2.046c.083 0 .15.066.15.147v5.352a.15.15 0 0 1-.15.148H8.92a.15.15 0 0 1-.152-.148v-5.352a.15.15 0 0 1 .152-.147Z"/><path fill="#fff" d="M4.906 7.405h5.624c1.47 0 3.007.068 3.764.827.746.746.827 2.233.83 3.676v4.54a.15.15 0 0 1-.152.147h-1.947a.15.15 0 0 1-.152-.148V11.83c-.002-.806-.048-1.634-.464-2.051-.358-.36-1.026-.441-1.72-.458H7.158a.15.15 0 0 0-.151.147v6.98a.15.15 0 0 1-.152.148H4.906a.15.15 0 0 1-.15-.148V7.554a.15.15 0 0 1 .15-.149zm12.131 0h1.949a.15.15 0 0 1 .15.15v8.892a.15.15 0 0 1-.15.148h-1.949a.15.15 0 0 1-.151-.148V7.554a.15.15 0 0 1 .151-.149zM8.92 10.948h2.046c.083 0 .15.066.15.147v5.352a.15.15 0 0 1-.15.148H8.92a.15.15 0 0 1-.152-.148v-5.352a.15.15 0 0 1 .152-.147Z"/></svg><span>Xiaomi G27i</span></span>
+                                <span class="gear-spec">the 2023 original, not the 200 Hz 2026 one</span>
+                                <span class="gear-screen" aria-hidden="true"><b>1920×1080</b><i>@ 165 Hz</i></span>
+                                <span class="gear-stand" aria-hidden="true"></span>
+                                <dl class="gear-stats">
+                                    <dt>panel</dt><dd>27" IPS · 16:9</dd>
+                                    <dt>refresh</dt><dd>48–165 Hz</dd>
+                                    <dt>response</dt><dd>1 ms</dd>
+                                    <dt>bright</dt><dd>250 nits</dd>
+                                    <dt>contrast</dt><dd>1000:1</dd>
+                                    <dt>color</dt><dd>99% sRGB</dd>
+                                    <dt>ports</dt><dd>DP · HDMI 2.0 · 3.5 mm</dd>
+                                    <dt>tilt</dt><dd>-5° to +15°</dd>
+                                    <dt>model</dt><dd>P27FBB-RGGL</dd>
+                                </dl>
+                                <span class="gear-quip"># 165 Hz panel, 1650 Ti GPU. the panel waits patiently.</span>
+                            </li>
+                            </ul>
+                        </section>
+                        <section class="rig-sec" aria-label="audio" style="--c: #b388ff">
+                            <p class="rig-sec-head"><span class="rig-s">[audio]</span> <span class="rig-c">7 devices · 1 retired</span></p>
+                            <ul class="gear-grid">
+                            <li class="gear" style="--c: #b388ff">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="14" r="4"/><circle cx="12" cy="6.5" r="1"/></svg>
+                                <span class="gear-kind">speaker</span>
+                                <span class="gear-name"><svg class="ub-mark is-edifier gear-wordmark" viewBox="470 855 2800 610" width="45.9" height="10" role="img" aria-label="Edifier"><path d="m 480.08062,865.5525 -2.05032,587.1462 338.30209,4.0564 -1.02516,-70.9849 H 572.34482 v -196.7295 l 226.55989,1.0141 1.02516,-67.9427 -221.4341,-1.0141 -3.07547,-184.5607 h 239.88693 l -1.02516,-74.027 z"/><path d="m 945.32561,866.7148 c -0.40143,194.8587 -0.80287,389.7173 -1.2043,584.576 102.82689,0.2748 205.65369,0.5496 308.48069,0.8244 40.6764,-10.0723 84.7389,-33.1729 95.1844,-75.7417 -1.4049,-143.7672 -2.0448,-287.5634 -3.9282,-431.3124 -0.9789,-34.2272 -29.5458,-61.2161 -62.4501,-69.4831 -22.2231,-7.5319 -46.2192,-3.399 -69.3384,-4.9781 -88.9147,-1.2951 -177.8294,-2.59 -266.74409,-3.8851 z m 101.22179,71.1753 c 49.4053,0.3894 98.8106,0.7788 148.216,1.1682 25.4311,7.3193 46.5268,26.4318 55.43,50.4128 0,115.0458 0,230.0918 0,345.1377 -8.2801,27.9846 -36.6419,49.5792 -66.0669,52.5074 -46.6633,0 -93.3265,0 -139.9897,0 0.8035,-149.7421 1.6071,-299.484 2.4106,-449.2261 z"/><path d="m 1717.4242,864.8359 3.0303,576.7676 h 87.8788 l -1.0101,-254.5454 219.192,-1.0101 v -48.4849 l -222.2223,-3.0303 -3.0303,-210.101 246.4647,2.0202 -1.0101,-57.5757 z"/><path d="m 2402.0806,867.5525 -2.0503,587.1462 338.3021,4.0564 -1.0252,-70.9849 h -242.9624 v -196.7295 l 226.5599,1.0141 1.0252,-67.9427 -221.4341,-1.0141 -3.0755,-184.5607 h 239.8869 l -1.0251,-74.027 z"/><path d="m 2872.8495,867.5403 c 0,193.19 0,386.3799 0,579.5699 30.1075,0.3584 60.215,0.7169 90.3225,1.0753 0.7169,-174.1936 1.4337,-348.3871 2.1506,-522.5807 51.9713,1.0753 103.9427,2.1505 155.914,3.2258 26.1002,5.3503 52.7509,17.5224 64.5161,43.0108 0.3584,32.6165 0.7169,65.233 1.0753,97.8495 -18.5315,23.0024 -39.9607,47.5047 -68.4954,57.1584 -35.9496,2.0941 -71.8991,4.1883 -107.8487,6.2824 55.1971,106.81 110.3943,213.6201 165.5914,320.4301 39.0681,1.0753 78.1362,2.1505 117.2043,3.2258 -53.7635,-93.9068 -107.5269,-187.8136 -161.2904,-281.7204 37.3252,-2.3921 77.2355,-6.8054 106.7974,-32.2128 33.4004,-24.8294 64.1454,-62.5172 60.1933,-106.6616 -1.8697,-31.1263 -3.1104,-64.089 -20.7892,-91.0199 -12.1744,-25.3066 -31.6701,-47.5522 -58.8239,-57.0614 -36.9025,-17.0962 -77.6165,-21.9853 -117.8581,-20.5712 -76.2197,0 -152.4395,0 -228.6592,0 z"/><rect width="83.838387" height="573.73737" x="1489.1414" y="871.90662"/><rect width="83.838387" height="573.73737" x="2169.1414" y="871.90662"/></svg><span>R12U</span></span>
+                                <span class="gear-spec">USB-powered 2.0 speakers</span>
+                                <span class="gear-quip"># one USB cable. the desk stays clean.</span>
+                            </li>
+                            <li class="gear" style="--c: #b388ff">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                                <span class="gear-kind">subwoofer</span>
+                                <span class="gear-name"><img class="gear-logo gear-wordmark is-simbadda" src="img/brands/simbadda.png" width="80" height="11" alt="Simbadda"><span>subwoofer</span></span>
+                                <span class="gear-spec">Indonesian brand, local bass</span>
+                                <span class="gear-quip"># the R12U handles mids. this handles the neighbors.</span>
+                            </li>
+                            <li class="gear" style="--c: #b388ff">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="2" y="14" width="5" height="7" rx="1.5"/><rect x="17" y="14" width="5" height="7" rx="1.5"/></svg>
+                                <span class="gear-kind">headphones <span class="gear-tag">daily</span></span>
+                                <span class="gear-name"><img class="gear-logo" src="img/brands/moondrop.svg" width="17" height="18" alt=""><span>Moondrop Old Fashioned</span></span>
+                                <span class="gear-spec">40 mm open on-ear · 32 Ω</span>
+                                <span class="gear-quip"># old fashioned by name only.</span>
+                            </li>
+                            <li class="gear" style="--c: #b388ff">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7.5" r="3.5"/><path d="M7 11v9"/><circle cx="17" cy="7.5" r="3.5"/><path d="M17 11v9"/></svg>
+                                <span class="gear-kind">earbuds <span class="gear-tag">daily</span></span>
+                                <span class="gear-name"><img class="gear-logo" src="img/brands/moondrop.svg" width="17" height="18" alt=""><span>Moondrop Nice Buds!</span></span>
+                                <span class="gear-spec">15.4 mm flathead · 32 Ω</span>
+                                <span class="gear-quip"># name checks out.</span>
+                            </li>
+                            <li class="gear" style="--c: #b388ff">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="8" width="18" height="11" rx="5"/><path d="M3 12.5h18"/><circle cx="12" cy="15.5" r=".6"/></svg>
+                                <span class="gear-kind">tws</span>
+                                <span class="gear-name"><svg class="ub-mark is-sony gear-wordmark" viewBox="0 9.8 24 4.4" width="49.1" height="9" role="img" aria-label="Sony"><path d="M8.5505 9.8881c.921 0 1.6574.2303 2.2209.7423.3848.3485.5999.8454.5939 1.3665a1.9081 1.9081 0 0 1-.5939 1.3726c-.5272.4848-1.3483.7423-2.221.7423-.8725 0-1.6785-.2575-2.2148-.7423-.3908-.3485-.609-.8484-.603-1.3726 0-.518.2182-1.015.603-1.3665.5-.4545 1.3847-.7423 2.2149-.7423zm.003 3.6692c.4606 0 .8878-.1606 1.1878-.4575.2999-.2999.4332-.6605.4332-1.1029 0-.4242-.1484-.821-.4333-1.1029-.2938-.2908-.7332-.4545-1.1877-.4545s-.8938.1637-1.1907.4545c-.2848.2818-.4333.6787-.4333 1.103-.006.409.1485.806.4333 1.1029.2969.2939.7332.4575 1.1907.4575zm-4.8418-1.9665c.1605.0424.315.094.4666.1636a1.352 1.352 0 0 1 .3787.2576c.197.206.309.4817.306.7665a.9643.9643 0 0 1-.3787.7788 2.0662 2.0662 0 0 1-.709.3485 3.7231 3.7231 0 0 1-1.1938.1697c-.352 0-.5467-.0406-.8138-.0962l-.077-.016c-.294-.0666-.5817-.1575-.8575-.2787a.0695.0695 0 0 0-.0424-.0121c-.0454 0-.0818.0394-.0818.0848v.203H.1212v-1.4786h.5242a.7559.7559 0 0 0 .1363.418c.2121.2607.4394.3607.6575.4395.3666.1212.7514.1848 1.1362.1969.5526 0 .8756-.134.9455-.163l.009-.0037.0062-.0023c.0616-.0226.3119-.1143.3119-.3916 0-.2743-.2338-.334-.387-.373l-.022-.0058c-.1708-.046-.562-.0872-.9897-.1323l-.1526-.016c-.4848-.0515-.9696-.1273-1.1968-.1758-.4977-.1097-.6942-.2917-.816-.4045l-.0082-.0076A1.0192 1.0192 0 0 1 0 11.1608c0-.497.3394-.797.7575-.9817.4454-.2.9756-.288 1.4392-.288.8211.0031 1.4877.2697 1.727.394.097.0515.1455-.0121.1455-.0606v-.1484h.5272v1.2876h-.4727a.9056.9056 0 0 0-.2939-.4909 1.289 1.289 0 0 0-.297-.1787c-.3968-.1667-.821-.2515-1.2513-.2455-.4423 0-.8665.085-1.0786.2153-.1333.0818-.2.1848-.2.306 0 .1727.1454.2424.2182.2636.1967.0597.6328.103.972.1369.0736.0073.1426.0142.2036.0206.3272.0334 1.012.1243 1.315.2zm18.1673-.9966v-.4787H24v.4696h-.4757c-.1727 0-.2424.0334-.3727.1788l-1.4271 1.63a.098.098 0 0 0-.0182.0698v.7423a1.106 1.106 0 0 0 .0121.103.1496.1496 0 0 0 .1.0909.9368.9368 0 0 0 .1303.009h.4848v.4698h-2.5724v-.4697h.4606a.9343.9343 0 0 0 .1302-.0091.1627.1627 0 0 0 .1031-.091.5626.5626 0 0 0 .009-.1v-.7422c0-.0242 0-.0242-.0333-.0636a606.7592 606.7592 0 0 0-1.4119-1.6028c-.0758-.0788-.2061-.2061-.406-.2061h-.4576v-.4696h2.5876v.4696h-.3121c-.0697 0-.1182.0697-.0576.1455 0 0 .8696 1.0392.8787 1.0513.0091.0122.0152.0122.0273.003.0121-.009.8938-1.0453.8999-1.0543a.0912.0912 0 0 0-.0182-.1273.1095.1095 0 0 0-.0606-.0182zm-6.284-.0031h.4848c.2212 0 .2606.0848.2636.2909l.0273 1.5664-2.5815-2.324H11.944v.4697h.412c.297 0 .3182.1636.3182.309v2.2138c.0004.1285.0009.295-.1818.295h-.506v.4667h2.1634v-.4697h-.5273c-.212 0-.2211-.097-.2242-.303v-1.8816l2.9724 2.6511h.7575l-.0394-2.9966c.003-.218.0182-.2908.2424-.2908h.4726v-.4697H15.595Z"/></svg><span>WF-1000XM5</span></span>
+                                <span class="gear-spec">noise-cancelling true wireless</span>
+                                <span class="gear-quip"># ANC for when the subwoofer gets too honest.</span>
+                            </li>
+                            <li class="gear is-retired" style="--c: #b388ff">
+                                <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="5"/><circle cx="9" cy="9" r="1.5"/><path d="M12.5 12.5 19 21"/></svg>
+                                <span class="gear-kind">iem <span class="gear-tag">retired</span></span>
+                                <span class="gear-name"><img class="gear-logo gear-wordmark" src="img/brands/truthear.svg" width="71" height="8" alt="TruthEar"><span class="gear-x">x</span><img class="gear-logo" src="img/brands/crinacle.png" width="15" height="16" alt=""><span>Crinacle Zero:RED</span></span>
+                                <span class="gear-spec">dual dynamic driver IEM</span>
+                                <span class="gear-quip"># tuned to the graph. retired with honors.</span>
+                            </li>
+                                <li class="gear is-wide" style="--c: #b388ff">
+                                    <svg class="ub-ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="8" width="13" height="8" rx="2"/><path d="M15 12h3a3 3 0 0 0 3-3V5M6 12h5"/></svg>
+                                    <span class="gear-kind">dac</span>
+                                    <span class="gear-name"><span>J3 Labs Eline</span></span>
+                                    <span class="gear-spec">Conexant CX31993 · 32-bit / 384 kHz · USB-C to 3.5 mm</span>
+                                    <div class="dac" data-dac>
+                                        <div class="dac-col" role="group" aria-label="Source">
+                                            <span class="dac-label">source</span>
+                                            <button type="button" class="dac-node" data-dac-src="laptop" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="11" rx="1.5"/><path d="M2 19h20"/></svg>laptop</button>
+                                            <button type="button" class="dac-node" data-dac-src="phone" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>phone</button>
+                                            <button type="button" class="dac-node" data-dac-src="deck" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="6" width="22" height="12" rx="4"/><rect x="7" y="8.5" width="10" height="7" rx="1"/></svg>Steam Deck</button>
+                                        </div>
+                                        <span class="dac-wire" aria-hidden="true"><b>USB-C</b></span>
+                                        <div class="dac-col">
+                                            <span class="dac-label">dac</span>
+                                            <span class="dac-core"><strong>Eline</strong><small>CX31993</small><small>32-bit / 384 kHz</small></span>
+                                        </div>
+                                        <span class="dac-wire" aria-hidden="true"><b>3.5 mm</b></span>
+                                        <div class="dac-col" role="group" aria-label="Output">
+                                            <span class="dac-label">output</span>
+                                            <button type="button" class="dac-node" data-dac-out="of" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="2" y="14" width="5" height="7" rx="1.5"/><rect x="17" y="14" width="5" height="7" rx="1.5"/></svg>Old Fashioned</button>
+                                            <button type="button" class="dac-node" data-dac-out="nb" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="7.5" r="3.5"/><path d="M7 11v9"/><circle cx="17" cy="7.5" r="3.5"/><path d="M17 11v9"/></svg>Nice Buds!</button>
+                                        </div>
+                                    </div>
+                                    <span class="gear-quip" data-dac-quip aria-live="polite"># both 32 Ω, so the Eline never breaks a sweat. tap a source or an output to reroute.</span>
+                                </li>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="desktop-empty" hidden>
+            <p>All windows closed.</p>
+            <p>Open them again from the <strong>Start</strong> menu (the logo, bottom left).</p>
+        </div>
+    </div>
     </main>
 
+    <div class="overview" role="dialog" aria-label="Overview" hidden>
+        <div class="ov-desks"></div>
+        <div class="ov-windows"></div>
+        <p class="ov-empty" hidden>Nothing open here. Very zen.</p>
+        <p class="ov-hint">
+            <span class="ov-hint-keys"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>&larr;</kbd>/<kbd>&rarr;</kbd> switch desktops · <kbd>Esc</kbd> closes</span>
+            <span class="ov-hint-touch">Tap a desktop to switch, tap the background to close</span>
+        </p>
+    </div>
+    <div class="hot-corner" aria-hidden="true"></div>
+
     <nav class="taskbar" aria-label="Taskbar">
-        <button class="start-btn" type="button" aria-haspopup="menu" aria-expanded="false">
-            <img src="img/logo-tp.png" alt="">
-            <span>Start</span>
+        <button class="start-btn" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="Start menu" title="Start">
+            <img src="img/logo-64.png" alt="">
         </button>
-        <div class="start-menu" role="menu" hidden>
-            <p class="start-menu-header">istaqom@gcp:~$</p>
-            <ul class="start-menu-list"></ul>
-            <button class="start-menu-reset" type="button">Restore all windows</button>
+        <div class="start-menu" role="dialog" aria-label="Application launcher" hidden>
+            <div class="kick-header">
+                <img class="kick-avatar" src="img/me.jpg" alt="">
+                <div class="kick-user">
+                    <span class="kick-name">Istaqom Wirawan</span>
+                    <span class="kick-host">istaqom@magi</span>
+                </div>
+                <label class="kick-search">
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10 10l4 4"/></svg>
+                    <input type="search" placeholder="Search..." aria-label="Search windows" autocomplete="off" spellcheck="false">
+                </label>
+            </div>
+            <div class="kick-body">
+                <ul class="kick-cats">
+                    <li><button type="button" class="kick-cat" data-cat="favorites">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.8l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.6l-3.8 2 .7-4.3-3.1-3 4.3-.6z"/></svg>
+                        <span>Favorites</span>
+                    </button></li>
+                    <li><button type="button" class="kick-cat" data-cat="all">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="5" height="5" rx="1"/><rect x="9" y="9" width="5" height="5" rx="1"/></svg>
+                        <span>All Applications</span>
+                    </button></li>
+                    <li class="kick-sep" role="separator"></li>
+                    <li><button type="button" class="kick-cat" data-cat="profile">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="5.5" r="3"/><path d="M2.5 14.5c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/></svg>
+                        <span>Profile</span>
+                    </button></li>
+                    <li><button type="button" class="kick-cat" data-cat="skills">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 4L1.5 8l4 4M10.5 4l4 4-4 4"/></svg>
+                        <span>Skills</span>
+                    </button></li>
+                    <li><button type="button" class="kick-cat" data-cat="system">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="5" rx="1"/><rect x="2" y="9" width="12" height="5" rx="1"/><path d="M4.5 4.5h.01M4.5 11.5h.01"/></svg>
+                        <span>System</span>
+                    </button></li>
+                    <li><button type="button" class="kick-cat" data-cat="career">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="5" width="12" height="8.5" rx="1"/><path d="M6 5V3.5h4V5M2 9h12"/></svg>
+                        <span>Career</span>
+                    </button></li>
+                    <li><button type="button" class="kick-cat" data-cat="hobby">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 4.5h6a2.5 2.5 0 0 1 2.4 1.9l.8 3.4a1.5 1.5 0 0 1-2.6 1.3L10.3 9.5H5.7l-1.3 1.6a1.5 1.5 0 0 1-2.6-1.3l.8-3.4A2.5 2.5 0 0 1 5 4.5zM5.5 6.3v2M4.5 7.3h2M10.5 7h.01"/></svg>
+                        <span>Hobby</span>
+                    </button></li>
+                </ul>
+                <div class="kick-apps">
+                    <ul class="start-menu-list"></ul>
+                    <p class="kick-empty" hidden>No results. It's probably DNS.</p>
+                </div>
+            </div>
+            <div class="kick-footer">
+                <button type="button" class="kick-action start-menu-reset">
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1"/><rect x="9" y="2" width="5" height="5" rx="1"/><rect x="2" y="9" width="12" height="5" rx="1"/></svg>
+                    <span>Restore all</span>
+                </button>
+                <button type="button" class="kick-action kick-theme" data-theme-toggle aria-pressed="false">
+                    <svg class="kick-moon" viewBox="0 0 16 16" aria-hidden="true"><path d="M13 9.5A5.5 5.5 0 1 1 6.5 3a4.5 4.5 0 0 0 6.5 6.5z"/></svg>
+                    <svg class="kick-sun" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1.5v1.5M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1 1M11.6 11.6l1 1M3.4 12.6l1-1M11.6 4.4l1-1"/></svg>
+                    <span data-theme-label>Dark mode</span>
+                </button>
+                <div class="kick-power">
+                    <button type="button" class="kick-action" data-power="sleep" title="Minimize every window">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13 9.5A5.5 5.5 0 1 1 6.5 3a4.5 4.5 0 0 0 6.5 6.5z"/></svg>
+                        <span>Sleep</span>
+                    </button>
+                    <button type="button" class="kick-action" data-power="restart" title="Reboot magi">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8A5.5 5.5 0 1 1 11.6 3.8"/><path d="M12 1.5v2.8H9.2"/></svg>
+                        <span>Restart</span>
+                    </button>
+                    <button type="button" class="kick-action" data-power="shutdown" title="Close every window">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5v6"/><path d="M4.5 3.8a5.5 5.5 0 1 0 7 0"/></svg>
+                        <span>Shut Down</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="pager-btn" role="group" aria-label="Virtual desktops">
+            <button class="pager-cell is-active" type="button" aria-label="Desktop 1: Main" title="Desktop 1: Main (click again for overview)">1</button>
+            <button class="pager-cell" type="button" aria-label="Desktop 2: Career" title="Desktop 2: Career (click again for overview)">2</button>
+            <button class="pager-cell" type="button" aria-label="Desktop 3: Hobby" title="Desktop 3: Hobby (click again for overview)">3</button>
         </div>
         <div class="taskbar-scroll">
             <button class="taskbar-arrow taskbar-arrow-left" type="button" aria-label="Scroll taskbar left" hidden>
@@ -414,9 +1574,36 @@
                 <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M3.5 2l3 3-3 3"/></svg>
             </button>
         </div>
-        <div class="taskbar-clock">
+        <button class="taskbar-sfx" type="button" aria-pressed="true" aria-label="Sound effects" title="Sound effects: on">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path class="sfx-body" d="M2 6h2.5L8 3v10L4.5 10H2z"/><path class="sfx-on" d="M10.5 5.5a3.5 3.5 0 0 1 0 5M12.5 3.5a6.3 6.3 0 0 1 0 9"/><path class="sfx-off" d="M10.5 6l4 4M14.5 6l-4 4"/></svg>
+        </button>
+        <button class="taskbar-clock" type="button" aria-haspopup="dialog" aria-expanded="false" aria-label="Open calendar">
             <time class="clock-time"></time>
             <time class="clock-date"></time>
+        </button>
+        <div class="cal-popup" role="dialog" aria-label="Calendar" hidden>
+            <div class="cal-main">
+                <div class="cal-head">
+                    <button type="button" class="cal-title" title="Back to today"></button>
+                    <div class="cal-nav">
+                        <button type="button" class="cal-btn" data-cal="prev" aria-label="Previous month">
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+                        </button>
+                        <button type="button" class="cal-btn" data-cal="today" aria-label="Today">
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.5"/></svg>
+                        </button>
+                        <button type="button" class="cal-btn" data-cal="next" aria-label="Next month">
+                            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="cal-grid" role="grid"></div>
+            </div>
+            <div class="cal-agenda">
+                <p class="cal-agenda-date"></p>
+                <ul class="cal-events"></ul>
+                <p class="cal-empty" hidden>No events. Suspiciously quiet.</p>
+            </div>
         </div>
     </nav>
 </body>

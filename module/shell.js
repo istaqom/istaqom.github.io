@@ -105,6 +105,10 @@
         while (historyEl.children.length > MAX_ENTRIES) historyEl.removeChild(historyEl.firstChild);
     }
 
+    function sfx(name, arg) {
+        if (window.SFX) window.SFX.play(name, arg);
+    }
+
     function printLog(target, lines, delay, done) {
         lines.forEach(function (line, i) {
             setTimeout(function () {
@@ -118,6 +122,7 @@
         input.disabled = true;
         input.blur();
         document.body.classList.add('is-glitching', 'is-rebooting');
+        sfx('glitch');
 
         var screen = el('div', 'reboot-screen');
         screen.setAttribute('role', 'alert');
@@ -144,9 +149,11 @@
 
         function showHacked() {
             screen.classList.add('show-hacked');
+            sfx('alarm');
             setTimeout(function () {
                 screen.classList.remove('show-hacked');
                 log.textContent = '';
+                sfx('boot');
                 printLog(log, BOOT_LOG, 260, function () {
                     try { sessionStorage.setItem(REBOOTED_KEY, '1'); } catch (e) {}
                     location.reload();
