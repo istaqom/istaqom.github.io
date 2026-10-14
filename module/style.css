@@ -7886,3 +7886,17 @@ body {
         animation: none;
     }
 }
+
+.img-in {
+    animation: img-in 0.35s ease;
+}
+
+@keyframes img-in {
+    from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .img-in {
+        animation: none;
+    }
+}
