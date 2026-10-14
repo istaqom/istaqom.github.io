@@ -448,15 +448,33 @@
         if (themeMeta) themeMeta.content = dark ? '#0e1113' : '#2c3e50';
     }
 
-    themeBtn.addEventListener('click', function () {
-        var dark = root.getAttribute('data-theme') !== 'dark';
+    var systemDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    function applyTheme(dark) {
         root.classList.add('is-theming');
         root.setAttribute('data-theme', dark ? 'dark' : 'light');
-        try { localStorage.setItem('magi-theme', dark ? 'dark' : 'light'); } catch (e) {}
-        sfx(dark ? 'restore' : 'maximize');
         syncTheme();
         setTimeout(function () { root.classList.remove('is-theming'); }, 400);
+    }
+
+    themeBtn.addEventListener('click', function () {
+        var dark = root.getAttribute('data-theme') !== 'dark';
+        applyTheme(dark);
+        try {
+            if (dark === systemDark.matches) localStorage.removeItem('magi-theme');
+            else localStorage.setItem('magi-theme', dark ? 'dark' : 'light');
+        } catch (e) {}
+        sfx(dark ? 'restore' : 'maximize');
     });
+
+    function onSystemTheme(e) {
+        var saved = null;
+        try { saved = localStorage.getItem('magi-theme'); } catch (err) {}
+        if (!saved) applyTheme(e.matches);
+    }
+
+    if (systemDark.addEventListener) systemDark.addEventListener('change', onSystemTheme);
+    else if (systemDark.addListener) systemDark.addListener(onSystemTheme);
     syncTheme();
 
     startBtn.addEventListener('click', function (e) {
